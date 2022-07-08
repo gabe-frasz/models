@@ -1,6 +1,6 @@
 #! /bin/bash
 
-# provide a repo name
+# * provide a repo name
 repoName=$1
 while [ -z "$repoName" ]
 do
@@ -8,7 +8,7 @@ do
    read -r -p $'Repository name: ' repoName
 done
 
-# choose the dependencies
+# * choose the dependencies
 # source code of the function below: https://stackoverflow.com/questions/45382472/bash-select-multiple-answers-at-once, https://unix.stackexchange.com/questions/146570/arrow-key-enter-menu/415155#415155
 function prompt_for_multiselect {
 
@@ -105,9 +105,10 @@ function prompt_for_multiselect {
 
     eval $retval='("${selected[@]}")'
 }
-prompt_for_multiselect result "Typescript;Testing;Animations;PWA support;" "true;true;;"
+prompt_for_multiselect result "Typescript;Personal sugestion;Testing (based on Vitest);Animations;PWA support;" "true;true;true;;"
 
-# Create a new project with Next.js
+
+# * Create a new project with Next.js
 if (${selected[0]})
 then
   echo 'Creating a new project with TypeScript'
@@ -118,7 +119,8 @@ else
 fi
 cd $repoName
 
-# .editorConfig setup
+
+# * .editorConfig setup
 echo "Configuring .editorconfig"
 echo >> .editorConfig "# EditorConfig is awesome: https://EditorConfig.org
 
@@ -134,7 +136,8 @@ charset = utf-8
 trim_trailing_whitespace = true
 insert_final_newline = true"
 
-# Tailwind config
+
+# * Tailwind config
 echo "Configuring Tailwind CSS"
 npm install -D tailwindcss postcss autoprefixer @tailwindcss/forms tailwind-scrollbar && npx tailwindcss init -p
 rm tailwind.config.js && echo >> tailwind.config.js '/** @type {import('tailwindcss').Config} */
@@ -156,7 +159,8 @@ rm styles/globals.css styles/Home.module.css && echo >> styles/globals.css "@tai
 @tailwind components;
 @tailwind utilities;"
 
-# pages/ setup
+
+# * pages/ setup
 echo "Organizing pages directory"
 rm pages/index.tsx && echo >> pages/index.tsx 'import type { NextPage } from "next";
 
@@ -198,7 +202,8 @@ export default function Document() {
   );
 }'
 
-# public setup
+
+# * public setup
 echo "Organizing public directory"
 rm public/vercel.svg
 mkdir public/icons public/images
@@ -211,14 +216,16 @@ Allow: /
 
 # Sitemap: link here if any'
 
-# components/ setup
+
+# * components/ setup
 echo "Creating components directory"
 mkdir components components/layouts components/modules components/widgets
 echo >> components/layouts/index.ts 'export * from "./"'
 echo >> components/modules/index.ts 'export * from "./"'
 echo >> components/widgets/index.ts 'export * from "./"'
 
-# core/ setup
+
+# * core/ setup
 echo "Creating core directory"
 mkdir core core/contexts core/hooks core/repositories core/services core/tests core/types core/use-cases core/utils
 echo >> core/contexts/index.ts 'export * from "./"'
@@ -230,7 +237,8 @@ echo >> core/types/index.ts 'export * from "./"'
 echo >> core/use-cases/index.ts 'export * from "./"'
 echo >> core/utils/index.ts 'export * from "./"'
 
-# tsconfig.json setup
+
+# * tsconfig.json setup
 echo "Configuring tsconfig.json"
 rm tsconfig.json && echo >> tsconfig.json '{
   "compilerOptions": {
@@ -248,6 +256,7 @@ rm tsconfig.json && echo >> tsconfig.json '{
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
+    /* "types": ["vitest/globals"], */
     "baseUrl": ".",
     "paths": {
       "@core/*": ["core/*"],
@@ -260,9 +269,9 @@ rm tsconfig.json && echo >> tsconfig.json '{
   "exclude": ["node_modules"]
 }'
 
-# PWA support setup if chosen
-if (${selected[2]})
-then
+
+# * PWA support setup if chosen
+if (${selected[2]}) ; then
   # next.config.js setup with PWA support
   echo "Configuring next.config.js with PWA support"
   rm next.config.js && echo >> next.config.js "/** @type {import('next').NextConfig} */
@@ -283,7 +292,7 @@ then
     },
   })"
 
-  # manifest.json setup
+  # * manifest.json setup
   echo "Creating manifest.json"
   echo >> public/manifest.json '{
   "name": "PWA model",
@@ -340,8 +349,16 @@ then
 }'
 fi
 
-# tests setup
-echo "Organizing tests directory"
+
+# * tests setup
+echo "Organizing tests directory"\n
+echo "Using npm"\n
+echo 'List of tests dependencies
+- vitest
+- jsdom
+- @testing-library/react
+- @testing-library/user-event
+- c8'
 npm install -D vitest jsdom @testing-library/react @testing-library/user-event c8
 echo >> core/tests/setup.ts 'import "@testing-library/react";
 import "@testing-library/react";
@@ -362,5 +379,31 @@ export default defineConfig({
 # mkdir core/tests/pages
 # echo >> core/tests/pages/index.spec.ts ''
 
-# run
+
+# * README.md template setup
+echo "Creating README.md template"
+rm README.md && echo >> README.md '# "$repoName"
+'
+
+
+# * Install sugested dependencies
+if (${selected[1]}) ; then
+  echo "Installing sugested dependencies"\n
+  echo "Using npm"\n
+  echo 'List of dependencies to be installed:
+  - daisyui (Tailwind CSS component library) => 🤍
+  - react-hot-toast (custom styled alerts)
+  - phosphor-react (easy-to-use svg icons)
+  - nookies (cookie handling on server side)
+  - axios (handle api requests instead of default fetch API)
+  - swr (requests with stale-while-revalidate and more)'
+fi
+
+
+
+# * Info message
+echo "Template built successfully!"\n
+echo "For futher information, visit the README.md file"\n
+
+# * run
 npm run dev
