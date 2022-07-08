@@ -16,7 +16,7 @@ This repo is a collection of bash scripts created to automate the project base c
 
 It's actually very simple, you just have to click the green button up there :up_arrow:
 
-![Use this template](./_docs/use-this-template-btn.png)
+[![Use this template](./_docs/use-this-template-btn.png)](https://github.com/SlyCooper-n/models/generate)
 
 You can also go by CLI, of course
 
@@ -32,3 +32,19 @@ After you have this on your machine, do the following:
 ```bash
 bash ./ctnewpj.sh
 ```
+
+## Arguments
+
+```bash
+bash ./ctnewpj.sh <repoName> # there will be more...
+```
+
+## Dependencies options
+
+- [x] Typescript[^marked]
+  - calmo poh
+- [x] Testing[^marked]
+- [ ] Animation
+- [ ] PWA support
+
+[^marked]: Selected as true by default
