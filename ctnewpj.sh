@@ -314,6 +314,8 @@ if (${selected[2]}) ; then
   });'
   # mkdir core/tests/pages
   # echo >> core/tests/pages/index.spec.ts ''
+  npm set-script "test" "vitest run --config ./vitest.config.ts"
+  npm set-script "test:watch" "vitest --config ./vitest.config.ts"
 fi
 
 # TODO FINSIH CONFIGURATION
