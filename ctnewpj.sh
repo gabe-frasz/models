@@ -111,8 +111,7 @@ prompt_for_multiselect result "Typescript;Personal sugestion;Testing (based on V
 
 # TODO FINSIH CONFIGURATION WITH TYPESCRIPT AND JAVASCRIPT
 # * Create a new project with Next.js
-if (${selected[0]})
-then
+if (${selected[0]}) ; then
   echo 'Creating a new project with TypeScript'
   npx create-next-app $repoName --ts
 else
