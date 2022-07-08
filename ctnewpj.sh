@@ -255,7 +255,6 @@ rm tsconfig.json && echo >> tsconfig.json '{
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
-    "types": ["vitest/globals"],
     "baseUrl": ".",
     "paths": {
       "@core/*": ["core/*"],
@@ -297,8 +296,7 @@ if (${selected[2]}) ; then
   - @testing-library/user-event
   - c8'
   npm install -D vitest jsdom @testing-library/react @testing-library/user-event c8
-  echo >> core/tests/setup.ts 'import "@testing-library/jest-dom";
-  import userEvent from "@testing-library/user-event";'
+  echo >> core/tests/setup.ts 'import "@testing-library/jest-dom";'
   echo >> vitest.config.ts 'import { defineConfig } from "vitest/config";
 
   export default defineConfig({
@@ -312,8 +310,34 @@ if (${selected[2]}) ; then
       },
     },
   });'
-  # mkdir core/tests/pages
-  # echo >> core/tests/pages/index.spec.ts ''
+  rm tsconfig.json && echo >> tsconfig.json '{
+    "compilerOptions": {
+      "target": "es5",
+      "lib": ["dom", "dom.iterable", "esnext"],
+      "allowJs": true,
+      "skipLibCheck": true,
+      "strict": true,
+      "forceConsistentCasingInFileNames": true,
+      "noEmit": true,
+      "esModuleInterop": true,
+      "module": "esnext",
+      "moduleResolution": "node",
+      "resolveJsonModule": true,
+      "isolatedModules": true,
+      "jsx": "preserve",
+      "incremental": true,
+      "types": ["vitest/globals"],
+      "baseUrl": ".",
+      "paths": {
+        "@core/*": ["core/*"],
+        "@components/*": ["components/*"],
+        "@/icons": ["public/icons"],
+        "@/images": ["public/images"],
+      },
+    },
+    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+    "exclude": ["node_modules"]
+  }'
   npm set-script "test" "vitest run --config ./vitest.config.ts"
   npm set-script "test:watch" "vitest --config ./vitest.config.ts"
 fi
@@ -413,8 +437,10 @@ fi
 # TODO CREATE TEMPLATE
 # * README.md template setup
 echo "Creating README.md template"
-rm README.md && echo >> README.md '# "$repoName"
-'
+rm README.md && echo >> README.md "# '$repoName'
+
+> This is a template for a new project based on Next.js and created with bash scripts.
+"
 
 
 
