@@ -107,7 +107,9 @@ function prompt_for_multiselect {
 }
 prompt_for_multiselect result "Typescript;Personal sugestion;Testing (based on Vitest);Animations;PWA support;" "true;true;true;;"
 
+# ! [0] => Typescript; [1] => Personal sugestion; [2] => Testing (based on Vitest); [3] => Animations; [4] => PWA support;
 
+# TODO FINSIH CONFIGURATION WITH TYPESCRIPT AND JAVASCRIPT
 # * Create a new project with Next.js
 if (${selected[0]})
 then
@@ -202,8 +204,7 @@ export default function Document() {
   );
 }'
 
-
-# * public setup
+# * public/ setup
 echo "Organizing public directory"
 rm public/vercel.svg
 mkdir public/icons public/images
@@ -216,14 +217,12 @@ Allow: /
 
 # Sitemap: link here if any'
 
-
 # * components/ setup
 echo "Creating components directory"
 mkdir components components/layouts components/modules components/widgets
 echo >> components/layouts/index.ts 'export * from "./"'
 echo >> components/modules/index.ts 'export * from "./"'
 echo >> components/widgets/index.ts 'export * from "./"'
-
 
 # * core/ setup
 echo "Creating core directory"
@@ -269,9 +268,69 @@ rm tsconfig.json && echo >> tsconfig.json '{
   "exclude": ["node_modules"]
 }'
 
+# TODO FINSIH CONFIGURATION
+# * Install sugested dependencies if chosen
+if (${selected[1]}) ; then
+  echo "Installing sugested dependencies"\n
+  echo "Using npm"\n
+  echo 'List of dependencies to be installed:
+  - daisyui (Tailwind CSS component library) => 🤍
+  - react-hot-toast (custom styled alerts)
+  - phosphor-react (easy-to-use svg icons)
+  - nookies (cookie handling on server side)
+  - axios (handle api requests instead of default fetch API)
+  - swr (requests with stale-while-revalidate and more)'
 
-# * PWA support setup if chosen
+  npm install daisyui react-hot-toast phosphor-react nookies axios swr
+fi
+
+# TODO FINSIH CONFIGURATION
+# * tests setup if chosen
 if (${selected[2]}) ; then
+  echo "Organizing tests directory"\n
+  echo "Using npm"\n
+  echo 'List of tests dependencies
+  - vitest
+  - jsdom
+  - @testing-library/react
+  - @testing-library/user-event
+  - c8'
+  npm install -D vitest jsdom @testing-library/react @testing-library/user-event c8
+  echo >> core/tests/setup.ts 'import "@testing-library/react";
+  import "@testing-library/react";
+  import "@testing-library/user-event";'
+  echo >> vitest.config.ts 'import { defineConfig } from "vitest/config";
+
+  export default defineConfig({
+    test: {
+      globals: true,
+      environment: "jsdom",
+      setupFiles: ["./tests/setup.ts"],
+      coverage: {
+        enabled: true,
+        exclude: ["**/*.{test,spec}.{js,ts,jsx,tsx}"],
+      },
+    },
+  });'
+  # mkdir core/tests/pages
+  # echo >> core/tests/pages/index.spec.ts ''
+fi
+
+# TODO FINSIH CONFIGURATION
+# * animations setup if chosen
+if (${selected[3]}) ; then
+  echo "Configuring animations"\n
+  echo "Using npm"\n
+  echo 'List of animations dependencies
+  - framer-motion
+  - lottie-react'
+  npm install framer-motion lottie-react
+fi
+
+# TODO REVIEW CONFIGURATION
+# * PWA support setup if chosen
+if (${selected[4]}) ; then
+  npm install next-pwa
   # next.config.js setup with PWA support
   echo "Configuring next.config.js with PWA support"
   rm next.config.js && echo >> next.config.js "/** @type {import('next').NextConfig} */
@@ -349,55 +408,11 @@ if (${selected[2]}) ; then
 }'
 fi
 
-
-# * tests setup
-echo "Organizing tests directory"\n
-echo "Using npm"\n
-echo 'List of tests dependencies
-- vitest
-- jsdom
-- @testing-library/react
-- @testing-library/user-event
-- c8'
-npm install -D vitest jsdom @testing-library/react @testing-library/user-event c8
-echo >> core/tests/setup.ts 'import "@testing-library/react";
-import "@testing-library/react";
-import "@testing-library/user-event";'
-echo >> vitest.config.ts 'import { defineConfig } from "vitest/config";
-
-export default defineConfig({
-  test: {
-    globals: true,
-    environment: "jsdom",
-    setupFiles: ["./tests/setup.ts"],
-    coverage: {
-      enabled: true,
-      exclude: ["**/*.{test,spec}.{js,ts,jsx,tsx}"],
-    },
-  },
-});'
-# mkdir core/tests/pages
-# echo >> core/tests/pages/index.spec.ts ''
-
-
+# TODO CREATE TEMPLATE
 # * README.md template setup
 echo "Creating README.md template"
 rm README.md && echo >> README.md '# "$repoName"
 '
-
-
-# * Install sugested dependencies
-if (${selected[1]}) ; then
-  echo "Installing sugested dependencies"\n
-  echo "Using npm"\n
-  echo 'List of dependencies to be installed:
-  - daisyui (Tailwind CSS component library) => 🤍
-  - react-hot-toast (custom styled alerts)
-  - phosphor-react (easy-to-use svg icons)
-  - nookies (cookie handling on server side)
-  - axios (handle api requests instead of default fetch API)
-  - swr (requests with stale-while-revalidate and more)'
-fi
 
 
 
