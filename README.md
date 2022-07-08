@@ -12,11 +12,11 @@
 
 ## :question: What is this about?
 
-This repo is a collection of bash scripts created to automate the project base, so just use and be happy :)
+This repo is a collection of bash scripts created to automate the project base with Next.js, just to use and be happy :)
 
 ### :interrobang: How can you use it?
 
-It's actually very simple, you only have to click the "Use this template" button up there :arrow_up:
+It's actually very simple, you only have to click the "Use this template" button up there :arrow_up: or down here :arrow_down:
 
 [![Use this template](./_docs/use-this-template-btn.png)](https://github.com/SlyCooper-n/models/generate)
 
@@ -46,7 +46,9 @@ bash ./ctnewpj.sh <repoName> # there will be more...
 
 - [x] Typescript[^marked]
   - ...
-- [x] Testing[^marked]
+- [x] Personal sugestion
+  - ...
+- [x] Testing[^marked] (based on Vitest)
   - ...
 - [ ] Animation
   - ...
