@@ -16,11 +16,11 @@ This repo is a collection of bash scripts created to automate the project base w
 
 ### :interrobang: How can you use it?
 
-It's actually very simple, you only have to click the "Use this template" button up there :arrow_up: or down here :arrow_down:
+It's actually very simple, you only have to click the "Use this template" button up there :arrow_up: or down here :arrow_down: to make a copy to your GitHub
 
 [![Use this template](./_docs/use-this-template-btn.png)](https://github.com/SlyCooper-n/models/generate)
 
-But you can go by CLI too, of course
+But you can go by CLI too
 
 ```bash
 git clone https://github.com/SlyCooper-n/models.git
