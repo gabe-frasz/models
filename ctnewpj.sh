@@ -154,6 +154,7 @@ if (${selected[1]}) ; then
     plugins: [
       // require("@tailwindcss/forms"),
       // require("tailwind-scrollbar"),
+      require("@tailwindcss/typography"),
       require("daisyui"),
     ],
   }'
@@ -328,6 +329,7 @@ if (${selected[1]}) ; then
   - swr (requests with stale-while-revalidate and more)'
 
   npm install daisyui react-hot-toast phosphor-react nookies axios swr
+  npm install -D @tailwindcss/typography
 fi
 
 # TODO FINSIH CONFIGURATION
