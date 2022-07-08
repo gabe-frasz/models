@@ -255,7 +255,7 @@ rm tsconfig.json && echo >> tsconfig.json '{
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
-    /* "types": ["vitest/globals"], */
+    "types": ["vitest/globals"],
     "baseUrl": ".",
     "paths": {
       "@core/*": ["core/*"],
@@ -271,8 +271,8 @@ rm tsconfig.json && echo >> tsconfig.json '{
 # TODO FINSIH CONFIGURATION
 # * Install sugested dependencies if chosen
 if (${selected[1]}) ; then
-  echo "Installing sugested dependencies"\n
-  echo "Using npm"\n
+  echo "Installing sugested dependencies"
+  echo "Using npm"
   echo 'List of dependencies to be installed:
   - daisyui (Tailwind CSS component library) => 🤍
   - react-hot-toast (custom styled alerts)
@@ -287,8 +287,8 @@ fi
 # TODO FINSIH CONFIGURATION
 # * tests setup if chosen
 if (${selected[2]}) ; then
-  echo "Organizing tests directory"\n
-  echo "Using npm"\n
+  echo "Organizing tests directory"
+  echo "Using npm"
   echo 'List of tests dependencies
   - vitest
   - jsdom
@@ -321,8 +321,8 @@ fi
 # TODO FINSIH CONFIGURATION
 # * animations setup if chosen
 if (${selected[3]}) ; then
-  echo "Configuring animations"\n
-  echo "Using npm"\n
+  echo "Configuring animations"
+  echo "Using npm"
   echo 'List of animations dependencies
   - framer-motion
   - lottie-react'
@@ -353,7 +353,7 @@ if (${selected[4]}) ; then
     },
   })"
 
-  # * manifest.json setup
+  # manifest.json setup
   echo "Creating manifest.json"
   echo >> public/manifest.json '{
   "name": "PWA model",
@@ -419,8 +419,8 @@ rm README.md && echo >> README.md '# "$repoName"
 
 
 # * Info message
-echo "Template built successfully!"\n
-echo "For futher information, visit the README.md file"\n
+echo "Template built successfully!"
+echo "For futher information, visit the README.md file"
 
 # * run
 npm run dev
