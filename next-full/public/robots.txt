@@ -1,6 +1,0 @@
-# Allow all crawlers for indexing
-
-User-agent: *
-Allow: /
-
-# Sitemap: link here if any
