@@ -55,4 +55,8 @@ bash ./ctnewpj.sh <repoName> # there will be more...
 - [ ] PWA support
   - ...
 
+## :memo: License
+
+[MIT License](https://github.com/SlyCooper-n/models/blob/main/LICENSE) &copy; [Gabriel VS Frasão](https://github.com/SlyCooper/)
+
 [^marked]: Selected as true by default
