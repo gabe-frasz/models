@@ -4,8 +4,8 @@
 repoName=$1
 while [ -z "$repoName" ]
 do
-   echo 'Provide a repository name'
-   read -r -p $'Repository name: ' repoName
+  echo 'Provide a repository name'
+  read -r -p $'Repository name: ' repoName
 done
 
 # * choose the dependencies
@@ -141,21 +141,38 @@ insert_final_newline = true"
 # * Tailwind config
 echo "Configuring Tailwind CSS"
 npm install -D tailwindcss postcss autoprefixer @tailwindcss/forms tailwind-scrollbar && npx tailwindcss init -p
-rm tailwind.config.js && echo >> tailwind.config.js '/** @type {import('tailwindcss').Config} */
-module.exports = {
-  content: [
-    "./pages/**/*.{js,ts,jsx,tsx}",
-    "./components/**/*.{js,ts,jsx,tsx}",
+if (${selected[1]}) ; then
+  rm tailwind.config.js && echo >> tailwind.config.js '/** @type {import('tailwindcss').Config} */
+  module.exports = {
+    content: [
+      "./pages/**/*.{js,ts,jsx,tsx}",
+      "./components/**/*.{js,ts,jsx,tsx}",
+      ],
+    theme: {
+      extend: {},
+    },
+    plugins: [
+      require("daisyui"),
+      // require("@tailwindcss/forms"),
+      // require("tailwind-scrollbar"),
     ],
-  theme: {
-    extend: {},
-  },
-  plugins: [
-    // require("@tailwindcss/forms"),
-    // require("tailwind-scrollbar"),
-    // ...
-  ],
-}'
+  }'
+else  
+  rm tailwind.config.js && echo >> tailwind.config.js '/** @type {import('tailwindcss').Config} */
+  module.exports = {
+    content: [
+      "./pages/**/*.{js,ts,jsx,tsx}",
+      "./components/**/*.{js,ts,jsx,tsx}",
+      ],
+    theme: {
+      extend: {},
+    },
+    plugins: [
+      // require("@tailwindcss/forms"),
+      // require("tailwind-scrollbar"),
+    ],
+  }'
+fi
 rm styles/globals.css styles/Home.module.css && echo >> styles/globals.css "@tailwind base;
 @tailwind components;
 @tailwind utilities;"
@@ -238,33 +255,64 @@ echo >> core/utils/index.ts 'export * from "./"'
 
 # * tsconfig.json setup
 echo "Configuring tsconfig.json"
-rm tsconfig.json && echo >> tsconfig.json '{
-  "compilerOptions": {
-    "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "noEmit": true,
-    "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "jsx": "preserve",
-    "incremental": true,
-    "baseUrl": ".",
-    "paths": {
-      "@core/*": ["core/*"],
-      "@components/*": ["components/*"],
-      "@/icons": ["public/icons"],
-      "@/images": ["public/images"],
+if (${selected[2]}) ; then
+  rm tsconfig.json && echo >> tsconfig.json '{
+    "compilerOptions": {
+      "target": "es5",
+      "lib": ["dom", "dom.iterable", "esnext"],
+      "allowJs": true,
+      "skipLibCheck": true,
+      "strict": true,
+      "forceConsistentCasingInFileNames": true,
+      "noEmit": true,
+      "esModuleInterop": true,
+      "module": "esnext",
+      "moduleResolution": "node",
+      "resolveJsonModule": true,
+      "isolatedModules": true,
+      "jsx": "preserve",
+      "incremental": true,
+      "types": ["vitest/globals"],
+      "baseUrl": ".",
+      "paths": {
+        "@core/*": ["core/*"],
+        "@components/*": ["components/*"],
+        "@/icons": ["public/icons"],
+        "@/images": ["public/images"],
+      },
     },
-  },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules"]
+    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+    "exclude": ["node_modules"]
+  }'
+else
+  rm tsconfig.json && echo >> tsconfig.json '{
+    "compilerOptions": {
+      "target": "es5",
+      "lib": ["dom", "dom.iterable", "esnext"],
+      "allowJs": true,
+      "skipLibCheck": true,
+      "strict": true,
+      "forceConsistentCasingInFileNames": true,
+      "noEmit": true,
+      "esModuleInterop": true,
+      "module": "esnext",
+      "moduleResolution": "node",
+      "resolveJsonModule": true,
+      "isolatedModules": true,
+      "jsx": "preserve",
+      "incremental": true,
+      "baseUrl": ".",
+      "paths": {
+        "@core/*": ["core/*"],
+        "@components/*": ["components/*"],
+        "@/icons": ["public/icons"],
+        "@/images": ["public/images"],
+      },
+    },
+    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+    "exclude": ["node_modules"]
 }'
+fi
 
 # TODO FINSIH CONFIGURATION
 # * Install sugested dependencies if chosen
@@ -309,34 +357,6 @@ if (${selected[2]}) ; then
       },
     },
   });'
-  rm tsconfig.json && echo >> tsconfig.json '{
-    "compilerOptions": {
-      "target": "es5",
-      "lib": ["dom", "dom.iterable", "esnext"],
-      "allowJs": true,
-      "skipLibCheck": true,
-      "strict": true,
-      "forceConsistentCasingInFileNames": true,
-      "noEmit": true,
-      "esModuleInterop": true,
-      "module": "esnext",
-      "moduleResolution": "node",
-      "resolveJsonModule": true,
-      "isolatedModules": true,
-      "jsx": "preserve",
-      "incremental": true,
-      "types": ["vitest/globals"],
-      "baseUrl": ".",
-      "paths": {
-        "@core/*": ["core/*"],
-        "@components/*": ["components/*"],
-        "@/icons": ["public/icons"],
-        "@/images": ["public/images"],
-      },
-    },
-    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-    "exclude": ["node_modules"]
-  }'
   npm set-script "test" "vitest run --config ./vitest.config.ts"
   npm set-script "test:watch" "vitest --config ./vitest.config.ts"
 fi
