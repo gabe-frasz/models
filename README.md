@@ -30,6 +30,9 @@ gh repo clone SlyCooper-n/models
 After you have this on your machine, do the following:
 
 ```bash
+cd models
+
+# this will run the sript to create a new project
 bash ./ctnewpj.sh
 ```
 
