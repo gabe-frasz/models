@@ -152,9 +152,9 @@ if (${selected[1]}) ; then
       extend: {},
     },
     plugins: [
-      require("daisyui"),
       // require("@tailwindcss/forms"),
       // require("tailwind-scrollbar"),
+      require("daisyui"),
     ],
   }'
 else  
