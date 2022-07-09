@@ -348,7 +348,7 @@ if [ ${result[2]} ] ; then
   - @testing-library/react
   - @testing-library/user-event
   - c8'
-  npm install -D vitest jsdom @testing-library/react @testing-library/user-event c8
+  npm install -D vitest jsdom @testing-library/jest-dom @testing-library/react @testing-library/user-event c8
   echo >> core/tests/setup.ts 'import "@testing-library/jest-dom";'
   echo >> vitest.config.ts 'import { defineConfig } from "vitest/config";
 
