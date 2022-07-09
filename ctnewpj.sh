@@ -344,22 +344,25 @@ if [ ${result[2]} ] ; then
   echo 'List of tests dependencies
   - vitest
   - jsdom
+  - @vitejs/plugin-react
   - @testing-library/jest-dom
   - @testing-library/react
   - @testing-library/user-event
   - c8'
-  npm install -D vitest jsdom @testing-library/jest-dom @testing-library/react @testing-library/user-event c8
+  npm install -D vitest @vitejs/plugin-react jsdom @testing-library/jest-dom @testing-library/react @testing-library/user-event c8
   echo >> core/tests/setup.ts 'import "@testing-library/jest-dom";'
   echo >> vitest.config.ts 'import { defineConfig } from "vitest/config";
+  import react from "@vitejs/plugin-react";
 
   export default defineConfig({
+    plugin: [react()]
     test: {
       globals: true,
       environment: "jsdom",
       setupFiles: ["./core/tests/setup.ts"],
       coverage: {
         enabled: true,
-        exclude: ["**/*.{test,spec}.{js,ts,jsx,tsx}"],
+        exclude: ["**/*.{test,spec}.{js,ts,jsx,tsx}", "setup.ts"],
       },
     },
   });'
