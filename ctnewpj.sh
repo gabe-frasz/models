@@ -322,6 +322,7 @@ if (${selected[1]}) ; then
   echo "Using npm"
   echo 'List of dependencies to be installed:
   - daisyui (Tailwind CSS component library) => 🤍
+  - @tailwindcss/typography (Tailwind CSS typography plugin)
   - react-hot-toast (custom styled alerts)
   - phosphor-react (easy-to-use svg icons)
   - nookies (cookie handling on server side)
