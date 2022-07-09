@@ -356,7 +356,7 @@ if [ ${result[2]} ] ; then
     test: {
       globals: true,
       environment: "jsdom",
-      setupFiles: ["./tests/setup.ts"],
+      setupFiles: ["./core/tests/setup.ts"],
       coverage: {
         enabled: true,
         exclude: ["**/*.{test,spec}.{js,ts,jsx,tsx}"],
