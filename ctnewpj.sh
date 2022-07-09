@@ -105,13 +105,15 @@ function prompt_for_multiselect {
 
     eval $retval='("${selected[@]}")'
 }
+# calling the function and saving the result in an array called 'result'
 prompt_for_multiselect result "Typescript;Personal sugestion;Testing (based on Vitest);Animations;PWA support;" "true;true;true;;"
 
 # ! [0] => Typescript; [1] => Personal sugestion; [2] => Testing (based on Vitest); [3] => Animations; [4] => PWA support;
 
+# TODO ASK Y/N QUESTIONS (vitest environment)...
 # TODO FINSIH CONFIGURATION WITH TYPESCRIPT AND JAVASCRIPT
 # * Create a new project with Next.js
-if (${selected[0]}) ; then
+if [ ${result[0]} ] ; then
   echo 'Creating a new project with TypeScript'
   npx create-next-app $repoName --ts
 else
@@ -141,7 +143,7 @@ insert_final_newline = true"
 # * Tailwind config
 echo "Configuring Tailwind CSS"
 npm install -D tailwindcss postcss autoprefixer @tailwindcss/forms tailwind-scrollbar && npx tailwindcss init -p
-if (${selected[1]}) ; then
+if [ ${result[1]} ] ; then
   rm tailwind.config.js && echo >> tailwind.config.js '/** @type {import('tailwindcss').Config} */
   module.exports = {
     content: [
@@ -256,7 +258,7 @@ echo >> core/utils/index.ts 'export * from "./"'
 
 # * tsconfig.json setup
 echo "Configuring tsconfig.json"
-if (${selected[2]}) ; then
+if [ ${result[2]} ] ; then
   rm tsconfig.json && echo >> tsconfig.json '{
     "compilerOptions": {
       "target": "es5",
@@ -317,7 +319,7 @@ fi
 
 # TODO FINSIH CONFIGURATION
 # * Install sugested dependencies if chosen
-if (${selected[1]}) ; then
+if [ ${result[1]} ] ; then
   echo "Installing sugested dependencies"
   echo "Using npm"
   echo 'List of dependencies to be installed:
@@ -335,7 +337,7 @@ fi
 
 # TODO FINSIH CONFIGURATION
 # * tests setup if chosen
-if (${selected[2]}) ; then
+if [ ${result[2]} ] ; then
   echo "Organizing tests directory"
   echo "Using npm"
   echo 'List of tests dependencies
@@ -366,7 +368,7 @@ fi
 
 # TODO FINSIH CONFIGURATION
 # * animations setup if chosen
-if (${selected[3]}) ; then
+if [ ${result[3]} ] ; then
   echo "Configuring animations"
   echo "Using npm"
   echo 'List of animations dependencies
@@ -377,7 +379,7 @@ fi
 
 # TODO REVIEW CONFIGURATION
 # * PWA support setup if chosen
-if (${selected[4]}) ; then
+if [ ${result[4]} ] ; then
   npm install next-pwa
   # next.config.js setup with PWA support
   echo "Configuring next.config.js with PWA support"
