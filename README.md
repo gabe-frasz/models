@@ -39,7 +39,7 @@ bash models/ctnewpj.sh
 ## :inbox_tray: Arguments
 
 ```bash
-bash models/ctnewpj.sh <repoName>
+bash models/ctnewpj.sh <repoName> # <templatePath> in progress...
 ```
 
 ## :clipboard: Dependencies options
@@ -47,7 +47,13 @@ bash models/ctnewpj.sh <repoName>
 - [x] Typescript[^marked]
   - It runs `npx create-next-app --ts <repoName>`
 - [x] Personal sugestion[^marked]
-  - ...
+  - [daisyui](https://daisyui.com/) (Tailwind CSS component library) -> 🤍
+  - [@tailwindcss/typography](https://tailwindcss.com/docs/typography-plugin) (Tailwind CSS typography plugin)
+  - [react-hot-toast](https://react-hot-toast.com/docs/toast) (custom styled alerts)
+  - [phosphor-react](https://phosphoricons.com/) (easy-to-use svg icons)
+  - [nookies](https://github.com/maticzav/nookies#readme) (cookie handling on server side)
+  - [axios](https://axios-http.com/ptbr/) (handle api requests instead of default fetch API)
+  - [swr](https://swr.vercel.app/) (requests with stale-while-revalidate and more)
 - [x] Testing[^marked] (based on Vitest)
   - ...
 - [ ] Animation
