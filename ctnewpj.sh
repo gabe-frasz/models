@@ -202,13 +202,12 @@ export default function Document() {
   return (
     <Html lang="en">
       <Head>
-        <meta charSet="utf-8" />
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="Best Next.js template with bash scripts in the world" />
 
         <link href="/favicon.ico" rel="shortcut icon" type="image/ico" sizes="16x16" />
 
-        <meta name="theme-color" content="#317EFB" />
+        <meta name="theme-color" content="#6419e6" />
 
         <Script
           crossOrigin="anonymous"
@@ -225,7 +224,7 @@ export default function Document() {
           <meta name="format-detection" content="telephone=no" />
           <meta name="mobile-web-app-capable" content="yes" />
           <meta name="msapplication-config" content="/icons/browserconfig.xml" />
-          <meta name="msapplication-TileColor" content="#317EFB" />
+          <meta name="msapplication-TileColor" content="#6419e6" />
           <meta name="msapplication-tap-highlight" content="no" />
 
           // icons 
