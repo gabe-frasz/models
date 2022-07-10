@@ -2,6 +2,8 @@
 
 # * provide a repo name
 repoName=$1
+templatePath=$2 # TODO - make this a parameter
+
 while [ -z "$repoName" ]
 do
   echo 'Provide a repository name'
@@ -110,7 +112,7 @@ prompt_for_multiselect result "Typescript;Personal sugestion;Testing (based on V
 
 # ! [0] => Typescript; [1] => Personal sugestion; [2] => Testing (based on Vitest); [3] => Animations; [4] => PWA support;
 
-# TODO ASK Y/N QUESTIONS (vitest environment)...
+# TODO ASK Y/N QUESTIONS (next-pwa options, create repo?, GitHub CLI?)...
 # TODO FINSIH CONFIGURATION WITH TYPESCRIPT AND JAVASCRIPT
 # * Create a new project with Next.js
 if [ ${result[0]} ] ; then
@@ -159,6 +161,9 @@ if [ ${result[1]} ] ; then
       require("@tailwindcss/typography"),
       require("daisyui"),
     ],
+    daisyui: {
+      themes: ["dark", "light"],
+    }
   }'
 else  
   rm tailwind.config.js && echo >> tailwind.config.js '/** @type {import('tailwindcss').Config} */
@@ -199,13 +204,10 @@ export default function Document() {
       <Head>
         <meta charSet="utf-8" />
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="Best Next.js template with bash scripts in the world" />
 
-        {/* <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" /> */}
+        <link href="/favicon.ico" rel="shortcut icon" type="image/ico" sizes="16x16" />
 
-        <link href="/favicon.ico" rel="icon" type="image/ico" sizes="16x16" />
-        {/* <link rel="apple-touch-icon" href="/apple-icon.png"></link> */}
-
-        {/* <link rel="manifest" href="/manifest.json" /> */}
         <meta name="theme-color" content="#317EFB" />
 
         <Script
@@ -213,6 +215,55 @@ export default function Document() {
           strategy="beforeInteractive"
           src="https://polyfill.io/v3/polyfill.min.js"
         />
+
+        {/* 
+          <meta name="application-name" content="Next.js template with bash scripts" />
+          <meta name="apple-mobile-web-app-capable" content="yes" />
+          <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+          <meta name="apple-mobile-web-app-title" content="Next.js template with bash scripts" />
+          
+          <meta name="format-detection" content="telephone=no" />
+          <meta name="mobile-web-app-capable" content="yes" />
+          <meta name="msapplication-config" content="/icons/browserconfig.xml" />
+          <meta name="msapplication-TileColor" content="#317EFB" />
+          <meta name="msapplication-tap-highlight" content="no" />
+
+          // icons 
+          <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png" />
+          <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png" />
+          <link rel="manifest" href="/manifest.json" />
+          <link rel="mask-icon" href="/icons/safari-pinned-tab.svg" color="#5bbad5" />
+          <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+
+          // apple-touch icons
+          <link rel="apple-touch-icon" href="/icons/touch-icon-iphone.png" />
+          <link rel="apple-touch-icon" sizes="152x152" href="/icons/touch-icon-ipad.png" />
+          <link rel="apple-touch-icon" sizes="180x180" href="/icons/touch-icon-iphone-retina.png" />
+          <link rel="apple-touch-icon" sizes="167x167" href="/icons/touch-icon-ipad-retina.png" />
+
+          // opengraph meta tags
+          <meta name="twitter:card" content="summary" />
+          <meta name="twitter:url" content="https://yourdomain.com" />
+          <meta name="twitter:title" content="Next.js template with bash scripts" />
+          <meta name="twitter:description" content="Best Next.js template with bash scripts in the world" />
+          <meta name="twitter:image" content="https://yourdomain.com/icons/android-chrome-192x192.png" />
+          <meta name="twitter:creator" content="@John_Doe" />
+          <meta property="og:type" content="website" />
+          <meta property="og:title" content="Next.js template with bash scripts" />
+          <meta property="og:description" content="Best Next.js template with bash scripts in the world" />
+          <meta property="og:site_name" content="Next.js template with bash scripts" />
+          <meta property="og:url" content="https://yourdomain.com" />
+          <meta property="og:image" content="https://yourdomain.com/icons/apple-touch-icon.png" />
+
+          // apple splash screen images
+          <link rel="apple-touch-startup-image" href="/images/apple_splash_2048.png" sizes="2048x2732" />
+          <link rel="apple-touch-startup-image" href="/images/apple_splash_1668.png" sizes="1668x2224" />
+          <link rel="apple-touch-startup-image" href="/images/apple_splash_1536.png" sizes="1536x2048" />
+          <link rel="apple-touch-startup-image" href="/images/apple_splash_1125.png" sizes="1125x2436" />
+          <link rel="apple-touch-startup-image" href="/images/apple_splash_1242.png" sizes="1242x2208" />
+          <link rel="apple-touch-startup-image" href="/images/apple_splash_750.png" sizes="750x1334" />
+          <link rel="apple-touch-startup-image" href="/images/apple_splash_640.png" sizes="640x1136" />
+        */}
       </Head>
 
       <body>
@@ -336,7 +387,7 @@ if [ ${result[1]} ] ; then
   npm install -D @tailwindcss/typography
 fi
 
-# TODO FINSIH CONFIGURATION
+# TODO FINSIH CONFIGURATION (Vitest with TypeScript paths)
 # * tests setup if chosen
 if [ ${result[2]} ] ; then
   echo "Organizing tests directory"
@@ -345,24 +396,26 @@ if [ ${result[2]} ] ; then
   - vitest
   - jsdom
   - @vitejs/plugin-react
+  - vite-tsconfig-paths
   - @testing-library/jest-dom
   - @testing-library/react
   - @testing-library/user-event
   - c8'
-  npm install -D vitest @vitejs/plugin-react jsdom @testing-library/jest-dom @testing-library/react @testing-library/user-event c8
+  npm install -D vitest @vitejs/plugin-react vite-tsconfig-paths jsdom @testing-library/jest-dom @testing-library/react @testing-library/user-event c8
   echo >> core/tests/setup.ts 'import "@testing-library/jest-dom";'
-  echo >> vitest.config.ts 'import { defineConfig } from "vitest/config";
-  import react from "@vitejs/plugin-react";
+  echo >> vitest.config.ts 'import react from "@vitejs/plugin-react";
+  import tsconfigPaths from "vite-tsconfig-paths";
+  import { defineConfig } from "vitest/config";
 
   export default defineConfig({
-    plugin: [react()]
+    plugin: [tsconfigPaths(), react()],
     test: {
       globals: true,
       environment: "jsdom",
       setupFiles: ["./core/tests/setup.ts"],
       coverage: {
         enabled: true,
-        exclude: ["**/*.{test,spec}.{js,ts,jsx,tsx}", "setup.ts"],
+        include: ["./components/**/*.tsx"],
       },
     },
   });'
@@ -465,10 +518,10 @@ fi
 # TODO CREATE TEMPLATE
 # * README.md template setup
 echo "Creating README.md template"
-rm README.md && echo >> README.md "# '$repoName'
+rm README.md && echo >> README.md '# '$repoName'
 
-> This is a template for a new project based on Next.js and created with bash scripts.
-"
+> This is a template for a new project based on Next.js and created with [bash scripts](https://github.com/SlyCooper-n/models).
+'
 
 
 
