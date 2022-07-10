@@ -384,6 +384,11 @@ if [ ${result[1]} ] ; then
 
   npm install daisyui react-hot-toast phosphor-react nookies axios swr
   npm install -D @tailwindcss/typography
+
+  if [ ${result[2]} ] ; then
+    npm install -D @vitest/ui
+    npm set-script "test:ui" "vitest --ui --config ./vitest.config.ts"
+  fi
 fi
 
 # TODO FINSIH CONFIGURATION (Vitest with TypeScript paths)
