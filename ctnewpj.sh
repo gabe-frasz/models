@@ -141,6 +141,51 @@ charset = utf-8
 trim_trailing_whitespace = true
 insert_final_newline = true"
 
+# * .gitigonore setup
+rm .gitigonore && echo >> .gitigonore '# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# local env files
+.env*.local
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+
+# PWAs
+/public/sw.js
+/public/sw.js.map
+/public/worker-*.js
+/public/worker-*.js.map
+/public/workbox-*.js
+/public/workbox-*.js.map'
+
 
 # * Tailwind config
 echo "Configuring Tailwind CSS"
@@ -445,19 +490,18 @@ if [ ${result[4]} ] ; then
   # next.config.js setup with PWA support
   echo "Configuring next.config.js with PWA support"
   rm next.config.js && echo >> next.config.js "/** @type {import('next').NextConfig} */
-  const nextConfig = {
-    reactStrictMode: true,
-  };
-
-  module.exports = nextConfig;
 
   // PWA configuration
   const withPWA = require('next-pwa')
   const runtimeCaching = require('next-pwa/cache')
 
   module.exports = withPWA({
+    reactStrictMode: true,
     pwa: {
       dest: 'public',
+      register: true,
+      skipWaiting: true,
+      disable: process.env.NODE_ENV === 'development',
       runtimeCaching,
     },
   })"
