@@ -141,8 +141,8 @@ charset = utf-8
 trim_trailing_whitespace = true
 insert_final_newline = true"
 
-# * .gitigonore setup
-rm .gitigonore && echo >> .gitigonore '# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# * .gitignore setup
+rm .gitignore && echo >> .gitignore '# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
 /node_modules
