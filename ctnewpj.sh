@@ -112,7 +112,7 @@ prompt_for_multiselect result "Typescript;Personal sugestion;Testing (based on V
 
 # ! [0] => Typescript; [1] => Personal sugestion; [2] => Testing (based on Vitest); [3] => Animations; [4] => PWA support;
 
-# TODO ASK Y/N QUESTIONS (next-pwa options, create repo?, GitHub CLI?)...
+# TODO ASK Y/N QUESTIONS (next-pwa options, unit and e2e?, create repo?, GitHub CLI?)...
 # TODO FINSIH CONFIGURATION WITH TYPESCRIPT AND JAVASCRIPT
 # * Create a new project with Next.js
 if [ ${result[0]} ] ; then
