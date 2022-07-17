@@ -266,6 +266,7 @@ export default function Document() {
           <meta name="application-name" content="Next.js template with bash scripts" />
           <meta name="apple-mobile-web-app-capable" content="yes" />
           <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+          <meta name="apple-mobile-web-app-status-bar" content="#6419e6" />
           <meta name="apple-mobile-web-app-title" content="Next.js template with bash scripts" />
           
           <meta name="format-detection" content="telephone=no" />
