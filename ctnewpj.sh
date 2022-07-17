@@ -151,6 +151,8 @@ rm .gitigonore && echo >> .gitigonore '# See https://help.github.com/articles/ig
 
 # testing
 /coverage
+/cypress/screenshots
+/cypress/videos
 
 # next.js
 /.next/
