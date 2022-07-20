@@ -344,13 +344,15 @@ echo >> components/widgets/index.ts 'export * from "./"'
 
 # * core/ setup
 echo "Creating core directory"
-mkdir core core/contexts core/hooks core/repositories core/services core/tests core/types core/use-cases core/utils
+mkdir core core/contexts core/hooks core/repositories core/services core/tests core/types core/types/@types core/types/props core/use-cases core/utils
 echo >> core/contexts/index.ts 'export * from "./"'
 echo >> core/hooks/index.ts 'export * from "./"'
 echo >> core/repositories/index.ts 'export * from "./"'
 echo >> core/services/index.ts 'export * from "./"'
 echo >> core/tests/index.ts 'export * from "./"'
 echo >> core/types/index.ts 'export * from "./"'
+echo >> core/types/@types/index.ts 'export * from "./"'
+echo >> core/types/props/index.ts 'export * from "./"'
 echo >> core/use-cases/index.ts 'export * from "./"'
 echo >> core/utils/index.ts 'export * from "./"'
 
@@ -452,8 +454,11 @@ if [ ${result[2]} ] ; then
   - @testing-library/jest-dom
   - @testing-library/react
   - @testing-library/user-event
-  - c8'
-  npm install -D vitest @vitejs/plugin-react vite-tsconfig-paths jsdom @testing-library/jest-dom @testing-library/react @testing-library/user-event c8
+  - c8
+
+  - eslint-plugin-jest-dom
+  - eslint-plugin-testing-library'
+  npm install -D vitest @vitejs/plugin-react vite-tsconfig-paths jsdom @testing-library/jest-dom @types/testing-library__jest-dom eslint-plugin-jest-dom @testing-library/react eslint-plugin-testing-library @testing-library/user-event c8
   echo >> core/tests/setup.ts 'import "@testing-library/jest-dom";'
   echo >> vitest.config.ts 'import react from "@vitejs/plugin-react";
   import tsconfigPaths from "vite-tsconfig-paths";
@@ -471,6 +476,18 @@ if [ ${result[2]} ] ; then
       },
     },
   });'
+  rm .eslintrc.json && echo >> .eslintrc.json '{
+  "extends": [
+    "next/core-web-vitals",
+    "plugin:testing-library/react",
+    "plugin:jest-dom/recommended"
+  ],
+  "plugins": ["testing-library", "jest-dom"],
+  "rules": {
+    "testing-library/await-async-utils": "off"
+  }
+}
+'
   npm set-script "test" "vitest run --config ./vitest.config.ts"
   npm set-script "test:watch" "vitest --config ./vitest.config.ts"
 fi
