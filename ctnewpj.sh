@@ -238,7 +238,7 @@ else
     ],
   }'
 fi
-rm styles/globals.css styles/Home.module.css && echo >> styles/globals.css "@tailwind base;
+rm -r styles && echo >> public/styles/globals.css "@tailwind base;
 @tailwind components;
 @tailwind utilities;"
 
