@@ -200,7 +200,12 @@ if [ ${result[1]} ] ; then
       "./components/**/*.{js,ts,jsx,tsx}",
       ],
     theme: {
-      extend: {},
+      extend: {
+        container: {
+          center: true,
+          padding: "1rem",
+        },
+      },
     },
     plugins: [
       // require("@tailwindcss/forms"),
@@ -220,7 +225,12 @@ else
       "./components/**/*.{js,ts,jsx,tsx}",
       ],
     theme: {
-      extend: {},
+      extend: {
+        container: {
+          center: true,
+          padding: "1rem",
+        },
+      },
     },
     plugins: [
       // require("@tailwindcss/forms"),
@@ -362,7 +372,7 @@ echo "Configuring tsconfig.json"
 if [ ${result[2]} ] ; then
   rm tsconfig.json && echo >> tsconfig.json '{
     "compilerOptions": {
-      "target": "es5",
+      "target": "ES6",
       "lib": ["dom", "dom.iterable", "esnext"],
       "allowJs": true,
       "skipLibCheck": true,
@@ -376,7 +386,6 @@ if [ ${result[2]} ] ; then
       "isolatedModules": true,
       "jsx": "preserve",
       "incremental": true,
-      "types": ["vitest/globals"],
       "baseUrl": ".",
       "paths": {
         "@core/*": ["core/*"],
@@ -391,7 +400,7 @@ if [ ${result[2]} ] ; then
 else
   rm tsconfig.json && echo >> tsconfig.json '{
     "compilerOptions": {
-      "target": "es5",
+      "target": "ES6",
       "lib": ["dom", "dom.iterable", "esnext"],
       "allowJs": true,
       "skipLibCheck": true,
@@ -467,7 +476,6 @@ if [ ${result[2]} ] ; then
   export default defineConfig({
     plugin: [tsconfigPaths(), react()],
     test: {
-      globals: true,
       environment: "jsdom",
       setupFiles: ["./core/tests/setup.ts"],
       coverage: {
@@ -531,7 +539,7 @@ if [ ${result[4]} ] ; then
   echo >> public/manifest.json '{
   "name": "PWA model",
   "short_name": "PWA model",
-  "theme_color": "#fafafa",
+  "theme_color": "#6419e6",
   "background_color": "#ffffff",
   "display": "standalone",
   "orientation": "portrait",
