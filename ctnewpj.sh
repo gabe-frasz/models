@@ -238,9 +238,13 @@ else
     ],
   }'
 fi
-rm -r styles && echo >> public/styles/globals.css "@tailwind base;
+rm -r styles && mkdir public/styles && echo >> public/styles/globals.css "@tailwind base;
 @tailwind components;
-@tailwind utilities;"
+@tailwind utilities;
+
+body {
+  overflow-x: hidden;
+}"
 
 
 # * pages/ setup
@@ -347,14 +351,16 @@ Allow: /
 
 # * components/ setup
 echo "Creating components directory"
-mkdir components components/layouts components/modules components/widgets
+mkdir components components/guards components/layouts components/modules components/widgets
+echo >> components/guards/index.ts 'export * from "./"'
 echo >> components/layouts/index.ts 'export * from "./"'
 echo >> components/modules/index.ts 'export * from "./"'
 echo >> components/widgets/index.ts 'export * from "./"'
 
 # * core/ setup
 echo "Creating core directory"
-mkdir core core/contexts core/hooks core/repositories core/services core/tests core/types core/types/@types core/types/props core/use-cases core/utils
+mkdir core core/adapters core/contexts core/hooks core/repositories core/services core/tests core/types core/types/@types core/types/props core/use-cases core/utils
+echo >> core/adapters/index.ts 'export * from "./"'
 echo >> core/contexts/index.ts 'export * from "./"'
 echo >> core/hooks/index.ts 'export * from "./"'
 echo >> core/repositories/index.ts 'export * from "./"'
