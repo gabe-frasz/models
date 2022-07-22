@@ -125,7 +125,7 @@ fi
 cd $repoName
 
 
-# * .editorConfig setup
+# * .editorConfig setup ----------------------------------------------------------------------------------------------------------
 echo "Configuring .editorconfig"
 echo >> .editorConfig "# EditorConfig is awesome: https://EditorConfig.org
 
@@ -141,7 +141,7 @@ charset = utf-8
 trim_trailing_whitespace = true
 insert_final_newline = true"
 
-# * .gitignore setup
+# * .gitignore setup -------------------------------------------------------------------------------------------------------------
 rm .gitignore && echo >> .gitignore '# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
@@ -189,7 +189,7 @@ yarn-error.log*
 /public/workbox-*.js.map'
 
 
-# * Tailwind config
+# * Tailwind config --------------------------------------------------------------------------------------------------------------
 echo "Configuring Tailwind CSS"
 npm install -D tailwindcss postcss autoprefixer @tailwindcss/forms tailwind-scrollbar && npx tailwindcss init -p
 if [ ${result[1]} ] ; then
@@ -247,7 +247,7 @@ body {
 }"
 
 
-# * pages/ setup
+# * pages/ setup -----------------------------------------------------------------------------------------------------------------
 echo "Organizing pages directory"
 rm pages/index.tsx && echo >> pages/index.tsx 'import type { NextPage } from "next";
 
@@ -336,7 +336,7 @@ export default function Document() {
   );
 }'
 
-# * public/ setup
+# * public/ setup ----------------------------------------------------------------------------------------------------------------
 echo "Organizing public directory"
 rm public/vercel.svg
 mkdir public/icons public/images
@@ -349,7 +349,7 @@ Allow: /
 
 # Sitemap: link here if any'
 
-# * components/ setup
+# * components/ setup ------------------------------------------------------------------------------------------------------------
 echo "Creating components directory"
 mkdir components components/guards components/layouts components/modules components/widgets
 echo >> components/guards/index.ts 'export * from "./"'
@@ -357,7 +357,71 @@ echo >> components/layouts/index.ts 'export * from "./"'
 echo >> components/modules/index.ts 'export * from "./"'
 echo >> components/widgets/index.ts 'export * from "./"'
 
-# * core/ setup
+if [ ${result[1]} ] ; then
+  echo >> components/layouts/PageContainer.tsx 'import { useTheme } from "@core/hooks";
+  import { PageContainerProps } from "@core/types";
+  import Head from "next/head";
+
+  export const PageContainer = ({
+    headTitle,
+    description,
+    center,
+    children,
+  }: PageContainerProps) => {
+    const { appTheme } = useTheme();
+
+    return (
+      <>
+        <Head>
+          <title>{headTitle ?? "Next page"}</title>
+          <meta name="description" content={description} />
+        </Head>
+
+        <div
+          data-theme={appTheme}
+          className={`w-screen min-h-screen flex flex-col ${
+            center && "justify-center items-center"
+          }`}
+        >
+          {children}
+        </div>
+      </>
+    );
+  };
+  '
+else
+  echo >> components/layouts/PageContainer.tsx 'import { PageContainerProps } from "@core/types";
+  import Head from "next/head";
+
+  export const PageContainer = ({
+    headTitle,
+    description,
+    center,
+    children,
+  }: PageContainerProps) => {
+    return (
+      <>
+        <Head>
+          <title>{headTitle ?? "Next page"}</title>
+          <meta name="description" content={description} />
+        </Head>
+
+        <div
+          className={`w-screen min-h-screen flex flex-col ${
+            center && "justify-center items-center"
+          }`}
+        >
+          {children}
+        </div>
+      </>
+    );
+  };
+  '
+fi
+echo >> components/layouts/index.ts 'export * from "./PageContainer'
+
+
+# * core/ setup ------------------------------------------------------------------------------------------------------------------
 echo "Creating core directory"
 mkdir core core/adapters core/contexts core/hooks core/repositories core/services core/tests core/types core/types/@types core/types/props core/use-cases core/utils
 echo >> core/adapters/index.ts 'export * from "./"'
@@ -368,12 +432,22 @@ echo >> core/services/index.ts 'export * from "./"'
 echo >> core/tests/index.ts 'export * from "./"'
 echo >> core/types/index.ts 'export * from "./"'
 echo >> core/types/@types/index.ts 'export * from "./"'
-echo >> core/types/props/index.ts 'export * from "./"'
+echo >> core/types/props/index.ts 'export * from "./PageContainer-props"'
 echo >> core/use-cases/index.ts 'export * from "./"'
 echo >> core/utils/index.ts 'export * from "./"'
 
+echo >> core/types/props/PageContainer-props.ts 'import { ReactNode } from "react";
 
-# * tsconfig.json setup
+export interface PageContainerProps {
+  headTitle?: string;
+  description?: string;
+  center?: boolean;
+  children: ReactNode | ReactNode[];
+}
+'
+
+
+# * tsconfig.json setup ----------------------------------------------------------------------------------------------------------
 echo "Configuring tsconfig.json"
   rm tsconfig.json && echo >> tsconfig.json '{
     "compilerOptions": {
@@ -404,7 +478,7 @@ echo "Configuring tsconfig.json"
 }'
 
 # TODO FINSIH CONFIGURATION
-# * Install sugested dependencies if chosen
+# * Install sugested dependencies if chosen --------------------------------------------------------------------------------------
 if [ ${result[1]} ] ; then
   echo "Installing sugested dependencies"
   echo "Using npm"
@@ -422,7 +496,7 @@ if [ ${result[1]} ] ; then
 fi
 
 # TODO FINSIH CONFIGURATION (Vitest with TypeScript paths)
-# * tests setup if chosen
+# * tests setup if chosen --------------------------------------------------------------------------------------------------------
 if [ ${result[2]} ] ; then
   echo "Organizing tests directory"
   echo "Using npm"
@@ -481,7 +555,7 @@ expect.extend(matchers);'
 fi
 
 # TODO FINSIH CONFIGURATION
-# * animations setup if chosen
+# * animations setup if chosen ---------------------------------------------------------------------------------------------------
 if [ ${result[3]} ] ; then
   echo "Configuring animations"
   echo "Using npm"
@@ -492,7 +566,7 @@ if [ ${result[3]} ] ; then
 fi
 
 # TODO REVIEW CONFIGURATION
-# * PWA support setup if chosen
+# * PWA support setup if chosen --------------------------------------------------------------------------------------------------
 if [ ${result[4]} ] ; then
   npm install next-pwa
   # next.config.js setup with PWA support
@@ -572,7 +646,7 @@ if [ ${result[4]} ] ; then
 fi
 
 # TODO CREATE TEMPLATE
-# * README.md template setup
+# * README.md template setup -----------------------------------------------------------------------------------------------------
 echo "Creating README.md template"
 rm README.md && echo >> README.md '# '$repoName'
 
@@ -581,9 +655,9 @@ rm README.md && echo >> README.md '# '$repoName'
 
 
 
-# * Info message
+# * Info message -----------------------------------------------------------------------------------------------------------------
 echo "Template built successfully!"
 echo "For futher information, visit the README.md file"
 
-# * run
+# * run --------------------------------------------------------------------------------------------------------------------------
 npm run dev
