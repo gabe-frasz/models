@@ -369,35 +369,6 @@ echo >> core/utils/index.ts 'export * from "./"'
 
 # * tsconfig.json setup
 echo "Configuring tsconfig.json"
-if [ ${result[2]} ] ; then
-  rm tsconfig.json && echo >> tsconfig.json '{
-    "compilerOptions": {
-      "target": "ES6",
-      "lib": ["dom", "dom.iterable", "esnext"],
-      "allowJs": true,
-      "skipLibCheck": true,
-      "strict": true,
-      "forceConsistentCasingInFileNames": true,
-      "noEmit": true,
-      "esModuleInterop": true,
-      "module": "esnext",
-      "moduleResolution": "node",
-      "resolveJsonModule": true,
-      "isolatedModules": true,
-      "jsx": "preserve",
-      "incremental": true,
-      "baseUrl": ".",
-      "paths": {
-        "@core/*": ["core/*"],
-        "@components/*": ["components/*"],
-        "@/icons": ["public/icons"],
-        "@/images": ["public/images"],
-      },
-    },
-    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-    "exclude": ["node_modules"]
-  }'
-else
   rm tsconfig.json && echo >> tsconfig.json '{
     "compilerOptions": {
       "target": "ES6",
@@ -425,7 +396,6 @@ else
     "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
     "exclude": ["node_modules"]
 }'
-fi
 
 # TODO FINSIH CONFIGURATION
 # * Install sugested dependencies if chosen
@@ -443,11 +413,6 @@ if [ ${result[1]} ] ; then
 
   npm install daisyui react-hot-toast phosphor-react nookies axios swr
   npm install -D @tailwindcss/typography
-
-  if [ ${result[2]} ] ; then
-    npm install -D @vitest/ui
-    npm set-script "test:ui" "vitest --ui --config ./vitest.config.ts"
-  fi
 fi
 
 # TODO FINSIH CONFIGURATION (Vitest with TypeScript paths)
@@ -468,7 +433,10 @@ if [ ${result[2]} ] ; then
   - eslint-plugin-jest-dom
   - eslint-plugin-testing-library'
   npm install -D vitest @vitejs/plugin-react vite-tsconfig-paths jsdom @testing-library/jest-dom @types/testing-library__jest-dom eslint-plugin-jest-dom @testing-library/react eslint-plugin-testing-library @testing-library/user-event c8
-  echo >> core/tests/setup.ts 'import "@testing-library/jest-dom";'
+  echo >> core/tests/setup.ts 'import matchers from "@testing-library/jest-dom/matchers";
+import { expect } from "vitest";
+
+expect.extend(matchers);'
   echo >> vitest.config.ts 'import react from "@vitejs/plugin-react";
   import tsconfigPaths from "vite-tsconfig-paths";
   import { defineConfig } from "vitest/config";
@@ -498,6 +466,12 @@ if [ ${result[2]} ] ; then
 '
   npm set-script "test" "vitest run --config ./vitest.config.ts"
   npm set-script "test:watch" "vitest --config ./vitest.config.ts"
+  
+  # install ui for vitest if personal sugestion was selected
+  if [ ${result[2]} ] ; then
+    npm install -D @vitest/ui
+    npm set-script "test:ui" "vitest --ui --config ./vitest.config.ts"
+  fi
 fi
 
 # TODO FINSIH CONFIGURATION
