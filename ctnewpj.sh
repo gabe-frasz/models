@@ -493,6 +493,66 @@ if [ ${result[1]} ] ; then
 
   npm install daisyui react-hot-toast phosphor-react nookies axios swr
   npm install -D @tailwindcss/typography
+
+  echo >> core/types/@types/ThemeContextValue-type.ts 'export type ThemeContextValue = {
+    appTheme: "light" | "dark";
+    toggleTheme: () => void;
+    setAppThemeToLight: () => void;
+    setAppThemeToDark: () => void;
+  };
+  '
+  echo >> core/types/props/ThemeContext-props.ts 'import { ReactNode } from "react";
+
+  export interface ThemeProviderProps {
+    children: ReactNode | ReactNode[];
+  }
+  '
+
+  rm core/types/@types/index.ts && echo >> core/types/@types/index.ts 'export * from "./ThemeContextValue-type";'
+  rm core/types/props/index.ts && echo >> core/types/props/index.ts 'export * from "./ThemeContext-props";'
+
+  echo >> core/contexts/ThemeContext.tsx 'import { ThemeContextValue, ThemeProviderProps } from "@core/types";
+  import { createContext, useState } from "react";
+
+  export const ThemeContext = createContext({} as ThemeContextValue);
+
+  export const ThemeProvider = ({ children }: ThemeProviderProps) => {
+    const [appTheme, setAppTheme] = useState<"light" | "dark">("dark");
+
+    const toggleTheme = () => {
+      setAppTheme(appTheme === "light" ? "dark" : "light");
+    };
+
+    const setAppThemeToLight = () => {
+      setAppTheme("light");
+    };
+
+    const setAppThemeToDark = () => {
+      setAppTheme("dark");
+    };
+
+    const themeValue = {
+      appTheme,
+      toggleTheme,
+      setAppThemeToLight,
+      setAppThemeToDark,
+    };
+
+    return (
+      <ThemeContext.Provider value={themeValue}>{children}</ThemeContext.Provider>
+    );
+  };
+  '
+
+  echo >> core/hooks/useTheme.ts 'import { ThemeContext } from "@core/contexts";
+  import { useContext } from "react";
+
+  export const useTheme = () => {
+    return useContext(ThemeContext);
+  };
+  '
+  
+  rm core/hooks/index.ts && echo >> core/hooks/index.ts 'export * from "./useTheme"'
 fi
 
 # TODO FINSIH CONFIGURATION (Vitest with TypeScript paths)
