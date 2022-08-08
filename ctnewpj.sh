@@ -715,6 +715,10 @@ rm README.md && echo >> README.md '# '$repoName'
 
 
 
+# * Git inital commit ------------------------------------------------------------------------------------------------------------
+git add .
+git commit -m "inital commit from bash script"
+
 # * Info message -----------------------------------------------------------------------------------------------------------------
 echo "Template built successfully!"
 echo "For futher information, visit the README.md file"
