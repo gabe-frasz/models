@@ -112,7 +112,7 @@ prompt_for_multiselect result "Typescript;Personal sugestion;Testing (based on V
 
 # ! [0] => Typescript; [1] => Personal sugestion; [2] => Testing (based on Vitest); [3] => Animations; [4] => PWA support;
 
-# TODO ASK Y/N QUESTIONS (next-pwa options, unit and e2e?, create repo?, GitHub CLI?)...
+# TODO ASK Y/N QUESTIONS (next-pwa options, unit and e2e?, create repo?, GitHub CLI?, commitizen for semantic versioning?)...
 # TODO FINSIH CONFIGURATION WITH TYPESCRIPT AND JAVASCRIPT
 # * Create a new project with Next.js
 if [ ${result[0]} ] ; then
@@ -139,7 +139,8 @@ tab_width = 2
 end_of_line = lf
 charset = utf-8
 trim_trailing_whitespace = true
-insert_final_newline = true"
+insert_final_newline = true
+"
 
 # * .gitignore setup -------------------------------------------------------------------------------------------------------------
 rm .gitignore && echo >> .gitignore '# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
@@ -186,7 +187,8 @@ yarn-error.log*
 /public/worker-*.js
 /public/worker-*.js.map
 /public/workbox-*.js
-/public/workbox-*.js.map'
+/public/workbox-*.js.map
+'
 
 
 # * Tailwind config --------------------------------------------------------------------------------------------------------------
@@ -216,7 +218,8 @@ if [ ${result[1]} ] ; then
     daisyui: {
       themes: ["dark", "light"],
     }
-  }'
+  }
+  '
 else  
   rm tailwind.config.js && echo >> tailwind.config.js '/** @type {import('tailwindcss').Config} */
   module.exports = {
@@ -236,7 +239,8 @@ else
       // require("@tailwindcss/forms"),
       // require("tailwind-scrollbar"),
     ],
-  }'
+  }
+  '
 fi
 rm -r styles && mkdir public/styles && echo >> public/styles/globals.css "@tailwind base;
 @tailwind components;
@@ -244,7 +248,8 @@ rm -r styles && mkdir public/styles && echo >> public/styles/globals.css "@tailw
 
 body {
   overflow-x: hidden;
-}"
+}
+"
 
 
 # * pages/ setup -----------------------------------------------------------------------------------------------------------------
@@ -255,7 +260,9 @@ const Home: NextPage = () => {
   return <div className="m-0">Hello World!</div>;
 };
 
-export default Home;'
+export default Home;
+'
+
 echo >> pages/_document.tsx 'import { Head, Html, Main, NextScript } from "next/document";
 import Script from "next/script";
 
@@ -334,7 +341,8 @@ export default function Document() {
       </body>
     </Html>
   );
-}'
+}
+'
 
 # * public/ setup ----------------------------------------------------------------------------------------------------------------
 echo "Organizing public directory"
@@ -347,7 +355,8 @@ echo >> public/robots.txt '# Allow all crawlers for indexing
 User-agent: *
 Allow: /
 
-# Sitemap: link here if any'
+# Sitemap: link here if any
+'
 
 # * components/ setup ------------------------------------------------------------------------------------------------------------
 echo "Creating components directory"
@@ -475,7 +484,8 @@ echo "Configuring tsconfig.json"
     },
     "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
     "exclude": ["node_modules"]
-}'
+}
+'
 
 # TODO FINSIH CONFIGURATION
 # * Install sugested dependencies if chosen --------------------------------------------------------------------------------------
@@ -576,7 +586,8 @@ if [ ${result[2]} ] ; then
   echo >> core/tests/setup.ts 'import matchers from "@testing-library/jest-dom/matchers";
 import { expect } from "vitest";
 
-expect.extend(matchers);'
+expect.extend(matchers);
+'
   echo >> vitest.config.ts 'import react from "@vitejs/plugin-react";
   import tsconfigPaths from "vite-tsconfig-paths";
   import { defineConfig } from "vitest/config";
@@ -591,7 +602,8 @@ expect.extend(matchers);'
         include: ["./components/**/*.tsx"],
       },
     },
-  });'
+  });
+  '
   rm .eslintrc.json && echo >> .eslintrc.json '{
   "extends": [
     "next/core-web-vitals",
@@ -646,7 +658,8 @@ if [ ${result[4]} ] ; then
       disable: process.env.NODE_ENV === 'development',
       runtimeCaching,
     },
-  })"
+  })
+  "
 
   # manifest.json setup
   echo "Creating manifest.json"
@@ -702,7 +715,8 @@ if [ ${result[4]} ] ; then
     }
   ],
   "splash_pages": null
-}'
+}
+'
 fi
 
 # TODO CREATE TEMPLATE
@@ -715,7 +729,10 @@ rm README.md && echo >> README.md '# '$repoName'
 
 
 
-# * Git inital commit ------------------------------------------------------------------------------------------------------------
+# * add commitizen to the project for semantic versioning -------------------------------------------------------------------------
+commitizen init cz-conventional-changelog --save-dev --save-exact
+
+# * git initial commit ------------------------------------------------------------------------------------------------------------
 git add .
 git commit -m "inital commit from bash script"
 
