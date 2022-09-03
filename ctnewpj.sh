@@ -584,6 +584,7 @@ if [ ${result[1]} ] ; then
     );
   };
   '
+  rm core/contexts/index.ts && echo >> core/contexts/index.ts 'export * from "./PageContainer"'
 
   echo >> core/hooks/useTheme.ts 'import { ThemeContext } from "@core/contexts";
   import { useContext } from "react";
@@ -592,7 +593,6 @@ if [ ${result[1]} ] ; then
     return useContext(ThemeContext);
   };
   '
-  
   rm core/hooks/index.ts && echo >> core/hooks/index.ts 'export * from "./useTheme"'
 fi
 
