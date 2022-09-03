@@ -113,6 +113,17 @@ prompt_for_multiselect result "Typescript;Personal sugestion;Testing (based on V
 # ! [0] => Typescript; [1] => Personal sugestion; [2] => Testing (based on Vitest); [3] => Animations; [4] => PWA support;
 
 # TODO ASK Y/N QUESTIONS (next-pwa options, unit and e2e?, create repo?, GitHub CLI?, commitizen for semantic versioning?)...
+while true; do
+    read -p "Do you wish to create a github repo? " yn
+    case $yn in
+        [Yy]* ) echo 'created'; break;;
+        [Nn]* ) exit;;
+        * ) echo "Please answer yes or no.";;
+    esac
+done
+
+exit
+
 # TODO FINSIH CONFIGURATION WITH TYPESCRIPT AND JAVASCRIPT
 # * Create a new project with Next.js
 if [ ${result[0]} ] ; then
@@ -255,9 +266,20 @@ body {
 # * pages/ setup -----------------------------------------------------------------------------------------------------------------
 echo "Organizing pages directory..."
 rm pages/index.tsx && echo >> pages/index.tsx 'import type { NextPage } from "next";
+import { PageContainer } from "@core/components/layout"
 
 const Home: NextPage = () => {
-  return <div className="m-0">Hello World!</div>;
+  return (
+    <PageContainer center>
+      <main className="prose">
+        <h1>Next.js app with bash scripts</h1>
+
+        <p>
+          Hello there!
+        </p>
+      </main>
+    </PageContainer>
+  );
 };
 
 export default Home;
@@ -392,7 +414,7 @@ if [ ${result[1]} ] ; then
     return (
       <>
         <Head>
-          <title>{headTitle ?? "Next page"}</title>
+          <title>{headTitle ?? "Next page with bash scripts"}</title>
           <meta name="description" content={description} />
         </Head>
 
