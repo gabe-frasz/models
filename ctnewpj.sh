@@ -126,7 +126,7 @@ cd $repoName
 
 
 # * .editorConfig setup ----------------------------------------------------------------------------------------------------------
-echo "Configuring .editorconfig"
+echo "Configuring .editorconfig..."
 echo >> .editorConfig "# EditorConfig is awesome: https://EditorConfig.org
 
 # top-most EditorConfig file
@@ -192,7 +192,7 @@ yarn-error.log*
 
 
 # * Tailwind config --------------------------------------------------------------------------------------------------------------
-echo "Configuring Tailwind CSS"
+echo "Configuring Tailwind CSS..."
 npm install -D tailwindcss postcss autoprefixer @tailwindcss/forms tailwind-scrollbar && npx tailwindcss init -p
 if [ ${result[1]} ] ; then
   rm tailwind.config.js && echo >> tailwind.config.js '/** @type {import('tailwindcss').Config} */
@@ -253,7 +253,7 @@ body {
 
 
 # * pages/ setup -----------------------------------------------------------------------------------------------------------------
-echo "Organizing pages directory"
+echo "Organizing pages directory..."
 rm pages/index.tsx && echo >> pages/index.tsx 'import type { NextPage } from "next";
 
 const Home: NextPage = () => {
@@ -355,7 +355,7 @@ export default MyApp
 '
 
 # * public/ setup ----------------------------------------------------------------------------------------------------------------
-echo "Organizing public directory"
+echo "Organizing public directory..."
 rm public/vercel.svg
 mkdir public/icons public/images
 echo >> public/icons/index.ts 'export * from "./"'
@@ -369,10 +369,10 @@ Allow: /
 '
 
 # * components/ setup ------------------------------------------------------------------------------------------------------------
-echo "Creating components directory"
-mkdir components components/guards components/layouts components/modules components/widgets
+echo "Creating components directory..."
+mkdir components components/guards components/layouts components/layouts/PageContainer components/modules components/widgets
 echo >> components/guards/index.ts 'export * from "./"'
-echo >> components/layouts/index.ts 'export * from "./"'
+echo >> components/layouts/index.ts 'export * from "./PageContainer"'
 echo >> components/modules/index.ts 'export * from "./"'
 echo >> components/widgets/index.ts 'export * from "./"'
 
@@ -437,37 +437,41 @@ else
   };
   '
 fi
-echo >> components/layouts/index.ts 'export * from "./PageContainer"'
+echo >> components/layouts/PageContainer/index.ts 'export * from "./PageContainer"'
 
 
 # * core/ setup ------------------------------------------------------------------------------------------------------------------
-echo "Creating core directory"
-mkdir core core/adapters core/contexts core/hooks core/repositories core/services core/tests core/types core/types/@types core/types/props core/use-cases core/utils
+echo "Creating core directory..."
+mkdir core core/adapters core/contexts core/hooks core/repositories core/services core/tests core/types core/use-cases core/utils
 echo >> core/adapters/index.ts 'export * from "./"'
 echo >> core/contexts/index.ts 'export * from "./"'
 echo >> core/hooks/index.ts 'export * from "./"'
 echo >> core/repositories/index.ts 'export * from "./"'
 echo >> core/services/index.ts 'export * from "./"'
 echo >> core/tests/index.ts 'export * from "./"'
-echo >> core/types/index.ts 'export * from "./"'
-echo >> core/types/@types/index.ts 'export * from "./"'
-echo >> core/types/props/index.ts 'export * from "./PageContainer-props"'
-echo >> core/use-cases/index.ts 'export * from "./"'
-echo >> core/utils/index.ts 'export * from "./"'
+echo >> core/types/index.ts 'export * from "./types"
+export * from "./props"'
+echo >> core/types/types.ts ''
+echo >> core/types/props.ts 'import { ReactNode } from "react";
 
-echo >> core/types/props/PageContainer-props.ts 'import { ReactNode } from "react";
-
+// * layout components
 export interface PageContainerProps {
   headTitle?: string;
   description?: string;
   center?: boolean;
   children: ReactNode | ReactNode[];
 }
+
+// * module components
+
+// * widget components
 '
+echo >> core/use-cases/index.ts 'export * from "./"'
+echo >> core/utils/index.ts 'export * from "./"'
 
 
 # * tsconfig.json setup ----------------------------------------------------------------------------------------------------------
-echo "Configuring tsconfig.json"
+echo "Configuring tsconfig.json..."
   rm tsconfig.json && echo >> tsconfig.json '{
     "compilerOptions": {
       "target": "ES6",
@@ -500,36 +504,53 @@ echo "Configuring tsconfig.json"
 # TODO FINSIH CONFIGURATION
 # * Install sugested dependencies if chosen --------------------------------------------------------------------------------------
 if [ ${result[1]} ] ; then
-  echo "Installing sugested dependencies"
   echo "Using npm"
-  echo 'List of dependencies to be installed:
+  echo 'Installing sugested dependencies:
   - daisyui (Tailwind CSS component library) => 🤍
   - @tailwindcss/typography (Tailwind CSS typography plugin)
   - react-hot-toast (custom styled alerts)
   - phosphor-react (easy-to-use svg icons)
   - nookies (cookie handling on server side)
   - axios (handle api requests instead of default fetch API)
-  - swr (requests with stale-while-revalidate and more)'
+  - swr (requests with stale-while-revalidate and more)
+  '
 
   npm install daisyui react-hot-toast phosphor-react nookies axios swr
   npm install -D @tailwindcss/typography
 
-  echo >> core/types/@types/ThemeContextValue-type.ts 'export type ThemeContextValue = {
+  rm core/types/types.ts && echo >> core/types/types.ts '// * contexts
+  export type ThemeContextValue = {
     appTheme: "light" | "dark";
     toggleTheme: () => void;
     setAppThemeToLight: () => void;
     setAppThemeToDark: () => void;
   };
-  '
-  echo >> core/types/props/ThemeContext-props.ts 'import { ReactNode } from "react";
 
+  // * layout components
+
+  // * module components
+
+  // * widget components
+  '
+  rm core/types/props.ts && echo >> core/types/props.ts 'import { ReactNode } from "react";
+
+  // * contexts
   export interface ThemeProviderProps {
     children: ReactNode | ReactNode[];
   }
-  '
 
-  rm core/types/@types/index.ts && echo >> core/types/@types/index.ts 'export * from "./ThemeContextValue-type";'
-  rm core/types/props/index.ts && echo >> core/types/props/index.ts 'export * from "./ThemeContext-props";'
+  // * layout components
+  export interface PageContainerProps {
+    headTitle?: string;
+    description?: string;
+    center?: boolean;
+    children: ReactNode | ReactNode[];
+  }
+
+  // * module components
+
+  // * widget components
+  '
 
   echo >> core/contexts/ThemeContext.tsx 'import { ThemeContextValue, ThemeProviderProps } from "@core/types";
   import { createContext, useState } from "react";
@@ -578,9 +599,8 @@ fi
 # TODO FINSIH CONFIGURATION (Vitest with TypeScript paths)
 # * tests setup if chosen --------------------------------------------------------------------------------------------------------
 if [ ${result[2]} ] ; then
-  echo "Organizing tests directory"
   echo "Using npm"
-  echo 'List of tests dependencies
+  echo 'Intalling tests devDependencies:
   - vitest
   - jsdom
   - @vitejs/plugin-react
@@ -589,21 +609,21 @@ if [ ${result[2]} ] ; then
   - @testing-library/react
   - @testing-library/user-event
   - c8
-
   - eslint-plugin-jest-dom
-  - eslint-plugin-testing-library'
+  - eslint-plugin-testing-library
+  '
   npm install -D vitest @vitejs/plugin-react vite-tsconfig-paths jsdom @testing-library/jest-dom @types/testing-library__jest-dom eslint-plugin-jest-dom @testing-library/react eslint-plugin-testing-library @testing-library/user-event c8
   echo >> core/tests/setup.ts 'import matchers from "@testing-library/jest-dom/matchers";
-import { expect } from "vitest";
+  import { expect } from "vitest";
 
-expect.extend(matchers);
-'
+  expect.extend(matchers);
+  '
   echo >> vitest.config.ts 'import react from "@vitejs/plugin-react";
   import tsconfigPaths from "vite-tsconfig-paths";
   import { defineConfig } from "vitest/config";
 
   export default defineConfig({
-    plugin: [tsconfigPaths(), react()],
+    plugins: [tsconfigPaths(), react()],
     test: {
       environment: "jsdom",
       setupFiles: ["./core/tests/setup.ts"],
@@ -615,17 +635,17 @@ expect.extend(matchers);
   });
   '
   rm .eslintrc.json && echo >> .eslintrc.json '{
-  "extends": [
-    "next/core-web-vitals",
-    "plugin:testing-library/react",
-    "plugin:jest-dom/recommended"
-  ],
-  "plugins": ["testing-library", "jest-dom"],
-  "rules": {
-    "testing-library/await-async-utils": "off"
+    "extends": [
+      "next/core-web-vitals",
+      "plugin:testing-library/react",
+      "plugin:jest-dom/recommended"
+    ],
+    "plugins": ["testing-library", "jest-dom"],
+    "rules": {
+      "testing-library/await-async-utils": "off"
+    }
   }
-}
-'
+  '
   npm set-script "test" "vitest run --config ./vitest.config.ts"
   npm set-script "test:watch" "vitest --config ./vitest.config.ts"
   
@@ -639,9 +659,8 @@ fi
 # TODO FINSIH CONFIGURATION
 # * animations setup if chosen ---------------------------------------------------------------------------------------------------
 if [ ${result[3]} ] ; then
-  echo "Configuring animations"
   echo "Using npm"
-  echo 'List of animations dependencies
+  echo 'Intalling dependencies:
   - framer-motion
   - lottie-react'
   npm install framer-motion lottie-react
@@ -652,8 +671,8 @@ fi
 if [ ${result[4]} ] ; then
   npm install next-pwa
   # next.config.js setup with PWA support
-  echo "Configuring next.config.js with PWA support"
-  rm next.config.js && echo >> next.config.js '/** @type {import('next').NextConfig} */
+  echo "Configuring next.config.js with PWA support..."
+  rm next.config.js && echo >> next.config.js '/** @type {import("next").NextConfig} */
 
   // PWA configuration
   const runtimeCaching = require("next-pwa/cache");
@@ -671,61 +690,61 @@ if [ ${result[4]} ] ; then
   '
 
   # manifest.json setup
-  echo "Creating manifest.json"
+  echo "Creating manifest.json..."
   echo >> public/manifest.json '{
-  "name": "PWA model",
-  "short_name": "PWA model",
-  "theme_color": "#6419e6",
-  "background_color": "#ffffff",
-  "display": "standalone",
-  "orientation": "portrait",
-  "scope": "/",
-  "start_url": "/",
-  "icons": [
-    {
-      "src": "icons/icon-72x72.png",
-      "sizes": "72x72",
-      "type": "image/png"
-    },
-    {
-      "src": "icons/icon-96x96.png",
-      "sizes": "96x96",
-      "type": "image/png"
-    },
-    {
-      "src": "icons/icon-128x128.png",
-      "sizes": "128x128",
-      "type": "image/png"
-    },
-    {
-      "src": "icons/icon-144x144.png",
-      "sizes": "144x144",
-      "type": "image/png"
-    },
-    {
-      "src": "icons/icon-152x152.png",
-      "sizes": "152x152",
-      "type": "image/png"
-    },
-    {
-      "src": "icons/icon-192x192.png",
-      "sizes": "192x192",
-      "type": "image/png"
-    },
-    {
-      "src": "icons/icon-384x384.png",
-      "sizes": "384x384",
-      "type": "image/png"
-    },
-    {
-      "src": "icons/icon-512x512.png",
-      "sizes": "512x512",
-      "type": "image/png"
-    }
-  ],
-  "splash_pages": null
-}
-'
+    "name": "PWA model",
+    "short_name": "PWA model",
+    "theme_color": "#6419e6",
+    "background_color": "#ffffff",
+    "display": "standalone",
+    "orientation": "portrait",
+    "scope": "/",
+    "start_url": "/",
+    "icons": [
+      {
+        "src": "icons/icon-72x72.png",
+        "sizes": "72x72",
+        "type": "image/png"
+      },
+      {
+        "src": "icons/icon-96x96.png",
+        "sizes": "96x96",
+        "type": "image/png"
+      },
+      {
+        "src": "icons/icon-128x128.png",
+        "sizes": "128x128",
+        "type": "image/png"
+      },
+      {
+        "src": "icons/icon-144x144.png",
+        "sizes": "144x144",
+        "type": "image/png"
+      },
+      {
+        "src": "icons/icon-152x152.png",
+        "sizes": "152x152",
+        "type": "image/png"
+      },
+      {
+        "src": "icons/icon-192x192.png",
+        "sizes": "192x192",
+        "type": "image/png"
+      },
+      {
+        "src": "icons/icon-384x384.png",
+        "sizes": "384x384",
+        "type": "image/png"
+      },
+      {
+        "src": "icons/icon-512x512.png",
+        "sizes": "512x512",
+        "type": "image/png"
+      }
+    ],
+    "splash_pages": null
+  }
+  '
 fi
 
 # TODO CREATE TEMPLATE
@@ -860,6 +879,7 @@ npm install
 # run on development mode
 npm run dev
 ```
+
 ### :brain: Thinking of contributing to the project?
 
 Clone the repo as shown above :arrow_up: and follow [this little guide](https://github.com/SlyCooper-n/'$repoName'/blob/main/_docs/CONTRIBUTING.md)
