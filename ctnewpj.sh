@@ -271,7 +271,7 @@ body {
 # * pages/ setup -----------------------------------------------------------------------------------------------------------------
 echo "Organizing pages directory..."
 rm pages/index.tsx && echo >> pages/index.tsx 'import type { NextPage } from "next";
-import { PageContainer } from "@core/components/layout"
+import { PageContainer } from "@components/layouts"
 
 const Home: NextPage = () => {
   return (
@@ -579,7 +579,7 @@ if [ ${result[1]} ] ; then
   // * widget components
   '
 
-  echo >> core/contexts/ThemeContext.tsx 'import { ThemeContextValue, ThemeProviderProps } from "@core/types";
+  mkdir core/contexts/ThemeContext && echo >> core/contexts/ThemeContext/ThemeContext.tsx 'import { ThemeContextValue, ThemeProviderProps } from "@core/types";
   import { createContext, useState } from "react";
 
   export const ThemeContext = createContext({} as ThemeContextValue);
@@ -611,6 +611,7 @@ if [ ${result[1]} ] ; then
     );
   };
   '
+  echo >> core/contexts/ThemeContext/index.ts 'export * from "./ThemeContext"'
   rm core/contexts/index.ts && echo >> core/contexts/index.ts 'export * from "./ThemeContext"'
 
   echo >> core/hooks/useTheme.ts 'import { ThemeContext } from "@core/contexts";
@@ -636,10 +637,11 @@ if [ ${result[2]} ] ; then
   - @testing-library/react
   - @testing-library/user-event
   - c8
+  - @vitest/coverage-c8
   - eslint-plugin-jest-dom
   - eslint-plugin-testing-library
   '
-  npm install -D vitest @vitejs/plugin-react vite-tsconfig-paths jsdom @testing-library/jest-dom @types/testing-library__jest-dom eslint-plugin-jest-dom @testing-library/react eslint-plugin-testing-library @testing-library/user-event c8
+  npm install -D vitest @vitejs/plugin-react vite-tsconfig-paths jsdom @testing-library/jest-dom @types/testing-library__jest-dom eslint-plugin-jest-dom @testing-library/react eslint-plugin-testing-library @testing-library/user-event c8 @vitest/coverage-c8
   echo >> core/tests/setup.ts 'import matchers from "@testing-library/jest-dom/matchers";
   import { expect } from "vitest";
 
@@ -656,7 +658,6 @@ if [ ${result[2]} ] ; then
       setupFiles: ["./core/tests/setup.ts"],
       coverage: {
         enabled: true,
-        include: ["./components/**/*.tsx"],
       },
     },
   });
@@ -677,10 +678,68 @@ if [ ${result[2]} ] ; then
   npm set-script "test:watch" "vitest --config ./vitest.config.ts"
   
   # install ui for vitest if personal sugestion was selected
-  if [ ${result[2]} ] ; then
+  if [ ${result[1]} ] ; then
     npm install -D @vitest/ui
     npm set-script "test:ui" "vitest --ui --config ./vitest.config.ts"
   fi
+
+  mkdir core/tests/pages && echo >> core/tests/pages/index.spec.tsx 'import { render, screen } from "@testing-library/react";
+  import Home from "pages";
+  import { describe, expect, it } from "vitest";
+
+  describe("Home page", () => {
+    it("should render default title", () => {
+      render(<Home />);
+
+      const title = screen.getByText(/next.js app with bash scripts/i);
+      const paragraph = screen.getByText(/hello there/i);
+
+      expect(title).toBeInTheDocument();
+      expect(paragraph).toBeInTheDocument();
+    });
+  });
+  '
+  echo >> components/layouts/PageContainer/PageContainer.spec.tsx 'import { cleanup, render, screen } from "@testing-library/react";
+  import { afterEach, describe, expect, it } from "vitest";
+  import { PageContainer } from "./PageContainer";
+
+  describe("PageContainer layout component", () => {
+    afterEach(() => {
+      cleanup();
+    });
+
+    it("should render children correctly", () => {
+      render(
+        <PageContainer headTitle="test" description="testing PageContainer props">
+          <span>Hello World</span>
+        </PageContainer>
+      );
+
+      const dummyText = screen.getByText(/hello world/i);
+
+      expect(dummyText).toBeInTheDocument();
+    });
+  });
+  '
+  echo >> core/contexts/ThemeContext/ThemeContext.spec.tsx 'import { render, screen } from "@testing-library/react";
+  import { describe, expect, it } from "vitest";
+  import { ThemeProvider } from "./ThemeContext";
+
+  describe("ThemeContext context", () => {
+    it("should render children correctly", () => {
+      render(
+        <ThemeProvider>
+          <span>Hello World</span>
+        </ThemeProvider>
+      );
+
+      const dummyText = screen.getByText(/hello world/i);
+
+      expect(dummyText).toBeInTheDocument();
+    });
+  });
+  '
+  
 fi
 
 # TODO FINSIH CONFIGURATION
@@ -713,6 +772,7 @@ if [ ${result[4]} ] ; then
 
   module.exports = withPWA({
     reactStrictMode: true,
+    swcMinify: true,
   });
   '
 
