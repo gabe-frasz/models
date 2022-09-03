@@ -45,7 +45,7 @@ bash models/ctnewpj.sh <repoName>
 ## :clipboard: Dependencies options
 
 - [x] Typescript[^marked]
-  - It runs `npx create-next-app --ts <repoName>`
+  - It runs `npx create-next-app <repoName> --ts`
 - [x] Personal sugestion[^marked]
   - [daisyui](https://daisyui.com/) (Tailwind CSS component library) -> 🤍
   - [@tailwindcss/typography](https://tailwindcss.com/docs/typography-plugin) (Tailwind CSS typography plugin)
