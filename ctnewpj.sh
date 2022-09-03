@@ -624,7 +624,7 @@ if [ ${result[1]} ] ; then
   rm core/hooks/index.ts && echo >> core/hooks/index.ts 'export * from "./useTheme"'
 fi
 
-# TODO FINSIH CONFIGURATION (Vitest with TypeScript paths)
+# TODO REVIEW CONFIGURATION
 # * tests setup if chosen --------------------------------------------------------------------------------------------------------
 if [ ${result[2]} ] ; then
   echo "Using npm"
@@ -677,10 +677,29 @@ if [ ${result[2]} ] ; then
   npm set-script "test" "vitest run --config ./vitest.config.ts"
   npm set-script "test:watch" "vitest --config ./vitest.config.ts"
   
-  # install ui for vitest if personal sugestion was selected
+  # install vitest ui and create test file for ThemeContext if personal sugestion was selected
   if [ ${result[1]} ] ; then
     npm install -D @vitest/ui
     npm set-script "test:ui" "vitest --ui --config ./vitest.config.ts"
+
+    echo >> core/contexts/ThemeContext/ThemeContext.spec.tsx 'import { render, screen } from "@testing-library/react";
+    import { describe, expect, it } from "vitest";
+    import { ThemeProvider } from "./ThemeContext";
+
+    describe("ThemeContext context", () => {
+      it("should render children correctly", () => {
+        render(
+          <ThemeProvider>
+            <span>Hello World</span>
+          </ThemeProvider>
+        );
+
+        const dummyText = screen.getByText(/hello world/i);
+
+        expect(dummyText).toBeInTheDocument();
+      });
+    });
+    '
   fi
 
   mkdir core/tests/pages && echo >> core/tests/pages/index.spec.tsx 'import { render, screen } from "@testing-library/react";
@@ -721,25 +740,6 @@ if [ ${result[2]} ] ; then
     });
   });
   '
-  echo >> core/contexts/ThemeContext/ThemeContext.spec.tsx 'import { render, screen } from "@testing-library/react";
-  import { describe, expect, it } from "vitest";
-  import { ThemeProvider } from "./ThemeContext";
-
-  describe("ThemeContext context", () => {
-    it("should render children correctly", () => {
-      render(
-        <ThemeProvider>
-          <span>Hello World</span>
-        </ThemeProvider>
-      );
-
-      const dummyText = screen.getByText(/hello world/i);
-
-      expect(dummyText).toBeInTheDocument();
-    });
-  });
-  '
-  
 fi
 
 # TODO FINSIH CONFIGURATION
