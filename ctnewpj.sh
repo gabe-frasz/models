@@ -2,10 +2,8 @@
 
 # * provide a repo name
 repoName=$1
-templatePath=$2 # TODO - make this a parameter
 
-while [ -z "$repoName" ]
-do
+while [ -z "$repoName" ]; do
   echo 'Provide a repository name'
   read -r -p $'Repository name: ' repoName
 done
@@ -116,15 +114,15 @@ prompt_for_multiselect result "Typescript;Personal sugestion;Testing (based on V
 # TODO MAKE FUNCITON TO ASK QUESTIONS
 # * y/n questions
 # function prompt_for_questions {
-#   while true; do
-#     read -p $1 yn
-#     if [[ $yn == "" ]]; then $2=true && break; fi
+# while true; do
+#   read -p $1 yn
+#   if [[ $yn == "" ]]; then $2=true && break; fi
 
-#     case $yn in
-#         [Yy]|[Yy][Ee][Ss] ) $2=true; break;;
-#         [Nn]|[Nn][Oo] ) $2=false; break;;
-#         * ) echo "Please answer yes or no";;
-#     esac
+#   case $yn in
+#       [Yy]|[Yy][Ee][Ss] ) $2=true; break;;
+#       [Nn]|[Nn][Oo] ) $2=false; break;;
+#       * ) echo "Please answer yes or no";;
+#   esac
 # done
 # }
 # prompt_for_questions "Do you want to create a GitHub repository? (Y/n) " createRepo

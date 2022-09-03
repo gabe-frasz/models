@@ -39,7 +39,7 @@ bash models/ctnewpj.sh
 ## :inbox_tray: Arguments
 
 ```bash
-bash models/ctnewpj.sh <repoName> # <templatePath> in progress...
+bash models/ctnewpj.sh <repoName>
 ```
 
 ## :clipboard: Dependencies options
