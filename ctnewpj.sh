@@ -344,6 +344,16 @@ export default function Document() {
 }
 '
 
+rm pages/_app.tsx && echo >> pages/_app.tsx 'import '../public/styles/globals.css'
+import type { AppProps } from 'next/app'
+
+function MyApp({ Component, pageProps }: AppProps) {
+  return <Component {...pageProps} />
+}
+
+export default MyApp
+'
+
 # * public/ setup ----------------------------------------------------------------------------------------------------------------
 echo "Organizing public directory"
 rm public/vercel.svg
