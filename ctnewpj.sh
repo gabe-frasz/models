@@ -762,7 +762,8 @@ rm README.md && echo >> README.md '<div align="center">
 [![Repo version](https://img.shields.io/github/package-json/v/slycooper-n/'$repoName'?style=flat-square)](https://github.com/SlyCooper-n/'$repoName'/blob/main/package.json)
 [![Github issues](https://img.shields.io/github/issues/SlyCooper-n/'$repoName'?color=red&style=flat-square)](https://github.com/SlyCooper-n/'$repoName'/issues)
 [![GitHub license](https://img.shields.io/github/license/SlyCooper-n/'$repoName'?style=flat-square)](https://github.com/SlyCooper-n/'$repoName'/blob/main/LICENSE)
-![Github commit](https://img.shields.io/github/last-commit/SlyCooper-n/'$repoName'?color=blue&style=flat-square)
+[![Github commit](https://img.shields.io/github/last-commit/SlyCooper-n/'$repoName'?color=blue&style=flat-square)](https://github.com/SlyCooper-n/'$repoName'/commits/main)
+[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 
 </div>
 
