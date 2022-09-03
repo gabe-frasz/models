@@ -643,23 +643,22 @@ if [ ${result[4]} ] ; then
   npm install next-pwa
   # next.config.js setup with PWA support
   echo "Configuring next.config.js with PWA support"
-  rm next.config.js && echo >> next.config.js "/** @type {import('next').NextConfig} */
+  rm next.config.js && echo >> next.config.js '/** @type {import('next').NextConfig} */
 
   // PWA configuration
-  const withPWA = require('next-pwa')
-  const runtimeCaching = require('next-pwa/cache')
+  const runtimeCaching = require("next-pwa/cache");
+  const withPWA = require("next-pwa")({
+    dest: "public",
+    register: true,
+    skipWaiting: true,
+    disable: process.env.NODE_ENV === "development",
+    runtimeCaching,
+  });
 
   module.exports = withPWA({
     reactStrictMode: true,
-    pwa: {
-      dest: 'public',
-      register: true,
-      skipWaiting: true,
-      disable: process.env.NODE_ENV === 'development',
-      runtimeCaching,
-    },
-  })
-  "
+  });
+  '
 
   # manifest.json setup
   echo "Creating manifest.json"
