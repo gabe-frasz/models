@@ -113,14 +113,21 @@ prompt_for_multiselect result "Typescript;Personal sugestion;Testing (based on V
 # ! [0] => Typescript; [1] => Personal sugestion; [2] => Testing (based on Vitest); [3] => Animations; [4] => PWA support;
 
 # TODO ASK Y/N QUESTIONS (next-pwa options, unit and e2e?, create repo?, GitHub CLI?, commitizen for semantic versioning?)...
-# while true; do
-#     read -p "Do you wish to create a github repo? (y/n) " yn
+# TODO MAKE FUNCITON TO ASK QUESTIONS
+# * y/n questions
+# function prompt_for_questions {
+#   while true; do
+#     read -p $1 yn
+#     if [[ $yn == "" ]]; then $2=true && break; fi
+
 #     case $yn in
-#         [Yy]* ) createRepo=true; break;;
-#         [Nn]* ) createRepo=false; exit;;
-#         * ) echo "Please answer yes or no.";;
+#         [Yy]|[Yy][Ee][Ss] ) $2=true; break;;
+#         [Nn]|[Nn][Oo] ) $2=false; break;;
+#         * ) echo "Please answer yes or no";;
 #     esac
 # done
+# }
+# prompt_for_questions "Do you want to create a GitHub repository? (Y/n) " createRepo
 
 # echo $createRepo && exit
 
