@@ -344,8 +344,8 @@ export default function Document() {
 }
 '
 
-rm pages/_app.tsx && echo >> pages/_app.tsx 'import '../public/styles/globals.css'
-import type { AppProps } from 'next/app'
+rm pages/_app.tsx && echo >> pages/_app.tsx 'import type { AppProps } from "next/app"
+import "../public/styles/globals.css"
 
 function MyApp({ Component, pageProps }: AppProps) {
   return <Component {...pageProps} />
