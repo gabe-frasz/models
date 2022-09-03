@@ -113,17 +113,16 @@ prompt_for_multiselect result "Typescript;Personal sugestion;Testing (based on V
 # ! [0] => Typescript; [1] => Personal sugestion; [2] => Testing (based on Vitest); [3] => Animations; [4] => PWA support;
 
 # TODO ASK Y/N QUESTIONS (next-pwa options, unit and e2e?, create repo?, GitHub CLI?, commitizen for semantic versioning?)...
-while true; do
-    read -p "Do you wish to create a github repo? [yn] " yn
-    case $yn in
-        [Yy]* ) createRepo=true; break;;
-        [Nn]* ) createRepo=false; exit;;
-        []* ) echo 'no answer, so use this default'; break;;
-        * ) echo "Please answer yes or no.";;
-    esac
-done
+# while true; do
+#     read -p "Do you wish to create a github repo? (y/n) " yn
+#     case $yn in
+#         [Yy]* ) createRepo=true; break;;
+#         [Nn]* ) createRepo=false; exit;;
+#         * ) echo "Please answer yes or no.";;
+#     esac
+# done
 
-echo $createRepo && exit
+# echo $createRepo && exit
 
 # TODO FINSIH CONFIGURATION WITH TYPESCRIPT AND JAVASCRIPT
 # * Create a new project with Next.js
