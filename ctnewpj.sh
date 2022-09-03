@@ -377,7 +377,7 @@ echo >> components/modules/index.ts 'export * from "./"'
 echo >> components/widgets/index.ts 'export * from "./"'
 
 if [ ${result[1]} ] ; then
-  echo >> components/layouts/PageContainer.tsx 'import { useTheme } from "@core/hooks";
+  echo >> components/layouts/PageContainer/PageContainer.tsx 'import { useTheme } from "@core/hooks";
   import { PageContainerProps } from "@core/types";
   import Head from "next/head";
 
@@ -409,7 +409,7 @@ if [ ${result[1]} ] ; then
   };
   '
 else
-  echo >> components/layouts/PageContainer.tsx 'import { PageContainerProps } from "@core/types";
+  echo >> components/layouts/PageContainer/PageContainer.tsx 'import { PageContainerProps } from "@core/types";
   import Head from "next/head";
 
   export const PageContainer = ({
@@ -437,7 +437,7 @@ else
   };
   '
 fi
-echo >> components/layouts/index.ts 'export * from "./PageContainer'
+echo >> components/layouts/index.ts 'export * from "./PageContainer"'
 
 
 # * core/ setup ------------------------------------------------------------------------------------------------------------------
