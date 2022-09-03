@@ -202,6 +202,7 @@ echo ""
 if [ ${result[0]} ] ; then
   echo 'Creating a new project with TypeScript'
   npx create-next-app $repoName --ts
+  cd $repoName
 
   # TODO: add a good description, add info about me with SWR request
   # * pages/ setup -----------------------------------------------------------------------------------------------------------------
@@ -694,8 +695,8 @@ if [ ${result[0]} ] ; then
 else
   echo 'Creating a new project with JavaScript'
   npx create-next-app $repoName
+  cd $repoName
 fi
-cd $repoName
 
 # * animations setup if chosen ---------------------------------------------------------------------------------------------------
 if [ ${result[3]} ] ; then
