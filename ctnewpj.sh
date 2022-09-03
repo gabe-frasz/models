@@ -584,7 +584,7 @@ if [ ${result[1]} ] ; then
     );
   };
   '
-  rm core/contexts/index.ts && echo >> core/contexts/index.ts 'export * from "./PageContainer"'
+  rm core/contexts/index.ts && echo >> core/contexts/index.ts 'export * from "./ThemeContext"'
 
   echo >> core/hooks/useTheme.ts 'import { ThemeContext } from "@core/contexts";
   import { useContext } from "react";
@@ -919,7 +919,7 @@ commitizen init cz-conventional-changelog --save-dev --save-exact
 
 # * git initial commit ------------------------------------------------------------------------------------------------------------
 git add .
-git commit -m "inital commit from bash scripts"
+git commit -m "feat: inital commit from bash scripts"
 
 # * Info message -----------------------------------------------------------------------------------------------------------------
 echo "Template built successfully!"
