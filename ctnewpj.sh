@@ -889,7 +889,7 @@ commitizen init cz-conventional-changelog --save-dev --save-exact
 
 # * git initial commit ------------------------------------------------------------------------------------------------------------
 git add .
-git commit -m "inital commit from bash script"
+git commit -m "inital commit from bash scripts"
 
 # * Info message -----------------------------------------------------------------------------------------------------------------
 echo "Template built successfully!"
