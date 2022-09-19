@@ -1040,9 +1040,9 @@ if [ $semVer ]; then npm i -g commitizen && commitizen init cz-conventional-chan
 
 # * git initial commit ------------------------------------------------------------------------------------------------------------
 git add .
-git commit -m "feat: inital commit from bash scripts"
+# git commit -m "feat: inital commit from bash scripts"
 
-if [[ $createRepo ]]; then git remote add origin "https://github.com/SlyCooper-n/'$repoName'.git" && git push -u origin main; fi
+# if [[ $createRepo ]]; then git remote add origin "https://github.com/SlyCooper-n/'$repoName'.git" && git push -u origin main; fi
 
 # * Info message -----------------------------------------------------------------------------------------------------------------
 echo "Template built successfully!"
