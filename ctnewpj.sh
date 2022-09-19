@@ -146,7 +146,7 @@ if [ ${result[1]} ] ; then
   while true; do
     echo ""
     read -n1 -p "Will you handle cookies? (y/N) " yn
-    if [[ $yn == "" ]]; then cookies=true && break; fi
+    if [[ $yn == "" ]]; then cookies=false && break; fi
 
     case $yn in
         [Yy]|[Yy][Ee][Ss] ) cookies=true; break;;
@@ -200,7 +200,7 @@ echo ""
 # TODO FINSIH CONFIGURATION WITH TYPESCRIPT AND JAVASCRIPT
 # * Create a new project with Next.js
 if [ ${result[0]} ] ; then
-  echo 'Creating a new project with TypeScript'
+  echo 'Creating a new project with TypeScript...'
   npx create-next-app $repoName --ts
   cd $repoName
 
@@ -334,74 +334,47 @@ if [ ${result[0]} ] ; then
 
   # * components/ setup ------------------------------------------------------------------------------------------------------------
   echo "Creating components directory..."
-  mkdir components components/guards components/layouts components/layouts/PageContainer components/modules components/widgets
+  mkdir components components/guards components/layouts components/layouts/Layout components/modules components/widgets
   echo >> components/guards/index.ts 'export * from "./"'
-  echo >> components/layouts/index.ts 'export * from "./PageContainer"'
+  echo >> components/layouts/index.ts 'export * from "./Layout"'
   echo >> components/modules/index.ts 'export * from "./"'
   echo >> components/widgets/index.ts 'export * from "./"'
 
   if [ ${result[1]} ] ; then
-    echo >> components/layouts/PageContainer/PageContainer.tsx 'import { useTheme } from "@core/hooks";
-    import { PageContainerProps } from "@core/types";
-    import Head from "next/head";
+    echo >> components/layouts/Layout/Layout.tsx 'import { useTheme } from "@core/hooks";
+      import { LayoutProps } from "@core/types";
+      import Head from "next/head";
 
-    export const PageContainer = ({
-      headTitle,
-      description,
-      center,
-      children,
-    }: PageContainerProps) => {
-      const { appTheme } = useTheme();
+      export const Layout = ({
+        headTitle,
+        description,
+        center,
+        className = "",
+        children,
+      }: LayoutProps) => {
+        const { appTheme } = useTheme();
 
-      return (
-        <>
-          <Head>
-            <title>{headTitle ?? "Next page with bash scripts"}</title>
-            <meta name="description" content={description} />
-          </Head>
+        return (
+          <>
+            <Head>
+              <title>{headTitle ?? "Next page with bash scripts"}</title>
+              <meta name="description" content={description} />
+            </Head>
 
-          <div
-            data-theme={appTheme}
-            className={`w-screen min-h-screen flex flex-col ${
-              center && "justify-center items-center"
-            }`}
-          >
-            {children}
-          </div>
-        </>
-      );
-    };
-    '
-  else
-    echo >> components/layouts/PageContainer/PageContainer.tsx 'import { PageContainerProps } from "@core/types";
-    import Head from "next/head";
-
-    export const PageContainer = ({
-      headTitle,
-      description,
-      center,
-      children,
-    }: PageContainerProps) => {
-      return (
-        <>
-          <Head>
-            <title>{headTitle ?? "Next page"}</title>
-            <meta name="description" content={description} />
-          </Head>
-
-          <div
-            className={`w-screen min-h-screen flex flex-col ${
-              center && "justify-center items-center"
-            }`}
-          >
-            {children}
-          </div>
-        </>
-      );
-    };
+            <div
+              data-theme={appTheme}
+              className={`min-h-screen flex flex-col ${
+                center ? "justify-center items-center" : ""
+              } ${className}`}
+            >
+              {children}
+            </div>
+          </>
+        );
+      };
     '
   fi
-  echo >> components/layouts/PageContainer/index.ts 'export * from "./PageContainer"'
+  echo >> components/layouts/Layout/index.ts 'export * from "./Layout"'
 
 
   # * core/ setup ------------------------------------------------------------------------------------------------------------------
@@ -419,10 +392,11 @@ if [ ${result[0]} ] ; then
   echo >> core/types/props.ts 'import { ReactNode } from "react";
 
   // * layout components
-  export interface PageContainerProps {
+  export interface LayoutProps {
     headTitle?: string;
     description?: string;
     center?: boolean;
+    className?: string;
     children: ReactNode | ReactNode[];
   }
 
@@ -468,14 +442,56 @@ if [ ${result[0]} ] ; then
   # * Install sugested dependencies if chosen --------------------------------------------------------------------------------------
   if [ ${result[1]} ] ; then
     echo 'Installing sugested dependencies:
+    - tailwindcss
+    - postcss
+    - autoprefixer
     - daisyui (Tailwind CSS component library) => 🤍
     - @tailwindcss/typography (Tailwind CSS typography plugin)
+    - @tailwindcss/forms
+    - tailwind-scrollbar
     - react-hot-toast (custom styled alerts)
     - phosphor-react (easy-to-use svg icons)
     '
 
     npm install daisyui react-hot-toast phosphor-react
-    npm install -D @tailwindcss/typography
+    npm install -D tailwindcss postcss autoprefixer @tailwindcss/typography @tailwindcss/forms tailwind-scrollbar && npx tailwindcss init -p
+
+    echo "Configuring Tailwind CSS..."
+    rm tailwind.config.js && echo >> tailwind.config.js '/** @type {import('tailwindcss').Config} */
+
+    module.exports = {
+      content: [
+        "./pages/**/*.{js,ts,jsx,tsx}",
+        "./components/**/*.{js,ts,jsx,tsx}",
+        ],
+      theme: {
+        extend: {
+          container: {
+            center: true,
+            padding: "1rem",
+          },
+        },
+      },
+      plugins: [
+        // require("@tailwindcss/forms"),
+        // require("tailwind-scrollbar"),
+        require("@tailwindcss/typography"),
+        require("daisyui"),
+      ],
+      daisyui: {
+        themes: ["dark", "light"],
+      }
+    }
+    '
+    rm -r styles && mkdir public/styles && echo >> public/styles/globals.css "@tailwind base;
+    @tailwind components;
+    @tailwind utilities;
+
+    body, #__next {
+      overflow-x: hidden;
+    }
+    "
+
 
     if [ ${apiTools[0]} ]; then npm install axios swr; fi
 
@@ -483,7 +499,7 @@ if [ ${result[0]} ] ; then
 
     if [ $cookies ]; then npm install nookies; fi
 
-    rm core/types/types.ts && echo >> core/types/types.ts '// * contexts
+    rm core/types/types.ts && echo >> core/types/types.ts '// * contexts values
     export type ThemeContextValue = {
       appTheme: "light" | "dark";
       toggleTheme: () => void;
@@ -491,11 +507,6 @@ if [ ${result[0]} ] ; then
       setAppThemeToDark: () => void;
     };
 
-    // * layout components
-
-    // * module components
-
-    // * widget components
     '
     rm core/types/props.ts && echo >> core/types/props.ts 'import { ReactNode } from "react";
 
@@ -505,7 +516,7 @@ if [ ${result[0]} ] ; then
     }
 
     // * layout components
-    export interface PageContainerProps {
+    export interface LayoutProps {
       headTitle?: string;
       description?: string;
       center?: boolean;
@@ -555,9 +566,7 @@ if [ ${result[0]} ] ; then
     echo >> core/hooks/useTheme.ts 'import { ThemeContext } from "@core/contexts";
     import { useContext } from "react";
 
-    export const useTheme = () => {
-      return useContext(ThemeContext);
-    };
+    export const useTheme = () => useContext(ThemeContext);
     '
     rm core/hooks/index.ts && echo >> core/hooks/index.ts 'export * from "./useTheme"'
   fi
@@ -658,7 +667,7 @@ if [ ${result[0]} ] ; then
         });
       });
       '
-      echo >> components/layouts/PageContainer/PageContainer.spec.tsx 'import { cleanup, render, screen } from "@testing-library/react";
+      echo >> components/layouts/Layout/PageContainer.spec.tsx 'import { cleanup, render, screen } from "@testing-library/react";
       import { afterEach, describe, expect, it } from "vitest";
       import { PageContainer } from "./PageContainer";
 
@@ -855,68 +864,6 @@ yarn-error.log*
 /public/workbox-*.js.map
 '
 
-
-# * Tailwind config --------------------------------------------------------------------------------------------------------------
-echo "Configuring Tailwind CSS..."
-npm install -D tailwindcss postcss autoprefixer @tailwindcss/forms tailwind-scrollbar && npx tailwindcss init -p
-if [ ${result[1]} ] ; then
-  rm tailwind.config.js && echo >> tailwind.config.js '/** @type {import('tailwindcss').Config} */
-  module.exports = {
-    content: [
-      "./pages/**/*.{js,ts,jsx,tsx}",
-      "./components/**/*.{js,ts,jsx,tsx}",
-      ],
-    theme: {
-      extend: {
-        container: {
-          center: true,
-          padding: "1rem",
-        },
-      },
-    },
-    plugins: [
-      // require("@tailwindcss/forms"),
-      // require("tailwind-scrollbar"),
-      require("@tailwindcss/typography"),
-      require("daisyui"),
-    ],
-    daisyui: {
-      themes: ["dark", "light"],
-    }
-  }
-  '
-else  
-  rm tailwind.config.js && echo >> tailwind.config.js '/** @type {import('tailwindcss').Config} */
-  module.exports = {
-    content: [
-      "./pages/**/*.{js,ts,jsx,tsx}",
-      "./components/**/*.{js,ts,jsx,tsx}",
-      ],
-    theme: {
-      extend: {
-        container: {
-          center: true,
-          padding: "1rem",
-        },
-      },
-    },
-    plugins: [
-      // require("@tailwindcss/forms"),
-      // require("tailwind-scrollbar"),
-    ],
-  }
-  '
-fi
-rm -r styles && mkdir public/styles && echo >> public/styles/globals.css "@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-body {
-  overflow-x: hidden;
-}
-"
-
-
 # * README.md template setup -----------------------------------------------------------------------------------------------------
 echo "Creating README.md template"
 rm README.md && echo >> README.md '<div align="center">
@@ -932,7 +879,7 @@ rm README.md && echo >> README.md '<div align="center">
 [![Github issues](https://img.shields.io/github/issues/SlyCooper-n/'$repoName'?color=red&style=flat-square)](https://github.com/SlyCooper-n/'$repoName'/issues)
 [![GitHub license](https://img.shields.io/github/license/SlyCooper-n/'$repoName'?style=flat-square)](https://github.com/SlyCooper-n/'$repoName'/blob/main/LICENSE)
 [![Github commit](https://img.shields.io/github/last-commit/SlyCooper-n/'$repoName'?color=blue&style=flat-square)](https://github.com/SlyCooper-n/'$repoName'/commits/main)
-[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
+[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg?style=flat-square)](http://commitizen.github.io/cz-cli/)
 
 </div>
 
@@ -1019,7 +966,7 @@ Testing
 
 ### :eye: Curious to see what is coming next?
 
-[Stay tuned right here](https://github.com/users/SlyCooper-n/projects/00)
+[Stay tuned right here](https://github.com/users/SlyCooper-n/projects/04)
 
 ## :camera: Screenshots
 
@@ -1082,10 +1029,8 @@ Project is: in progress / complete / no longer being worked on. If you are no lo
 Feel free to get in touch with me on my [Gmail](mailto:gabrielvitor.frasao@gmail.com), [Instagram](https://instagram/gabe_frasz) or [LinkedIn](https://linkedin.com/in/gabriel-vs-frasao)
 '
 
-
-
 # * add commitizen to the project for semantic versioning -------------------------------------------------------------------------
-if [ $semVer ]; then npm i -g commitizen && commitizen init cz-conventional-changelog --save-dev --save-exact
+if [ $semVer ]; then npm i -g commitizen && commitizen init cz-conventional-changelog --save-dev --save-exact; fi
 
 # * git initial commit ------------------------------------------------------------------------------------------------------------
 git add .
