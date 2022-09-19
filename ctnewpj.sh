@@ -571,7 +571,7 @@ if [ ${result[0]} ] ; then
     rm core/hooks/index.ts && echo >> core/hooks/index.ts 'export * from "./useTheme"'
   fi
 
-  # * tests setup if chosen --------------------------------------------------------------------------------------------------------
+  # * tests setup if chosen ------------------------------------------------------------------------------------------------------
   if [ ${result[2]} ] ; then
     echo "Using npm"
 
@@ -800,234 +800,240 @@ fi
 
 
 # * .editorConfig setup ----------------------------------------------------------------------------------------------------------
-echo "Configuring .editorconfig..."
-echo >> .editorConfig "# EditorConfig is awesome: https://EditorConfig.org
+if [ true ] ; then
+  echo "Configuring .editorconfig..."
+  echo >> .editorConfig "# EditorConfig is awesome: https://EditorConfig.org
 
-# top-most EditorConfig file
-root = true
+  # top-most EditorConfig file
+  root = true
 
-[*]
-indent_style = space
-indent_size = 2
-tab_width = 2
-end_of_line = lf
-charset = utf-8
-trim_trailing_whitespace = true
-insert_final_newline = true
-"
+  [*]
+  indent_style = space
+  indent_size = 2
+  tab_width = 2
+  end_of_line = lf
+  charset = utf-8
+  trim_trailing_whitespace = true
+  insert_final_newline = true
+  "
+fi
 
 # * .gitignore setup -------------------------------------------------------------------------------------------------------------
-rm .gitignore && echo >> .gitignore '# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+if [ true ] ; then
+  rm .gitignore && echo >> .gitignore '# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-# dependencies
-/node_modules
-/.pnp
-.pnp.js
+  # dependencies
+  /node_modules
+  /.pnp
+  .pnp.js
 
-# testing
-/coverage
-/cypress/screenshots
-/cypress/videos
+  # testing
+  /coverage
+  /cypress/screenshots
+  /cypress/videos
 
-# next.js
-/.next/
-/out/
+  # next.js
+  /.next/
+  /out/
 
-# production
-/build
+  # production
+  /build
 
-# misc
-.DS_Store
-*.pem
+  # misc
+  .DS_Store
+  *.pem
 
-# debug
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-.pnpm-debug.log*
+  # debug
+  npm-debug.log*
+  yarn-debug.log*
+  yarn-error.log*
+  .pnpm-debug.log*
 
-# local env files
-.env*.local
+  # local env files
+  .env*.local
 
-# vercel
-.vercel
+  # vercel
+  .vercel
 
-# typescript
-*.tsbuildinfo
+  # typescript
+  *.tsbuildinfo
 
-# PWAs
-/public/sw.js
-/public/sw.js.map
-/public/worker-*.js
-/public/worker-*.js.map
-/public/workbox-*.js
-/public/workbox-*.js.map
-'
+  # PWAs
+  /public/sw.js
+  /public/sw.js.map
+  /public/worker-*.js
+  /public/worker-*.js.map
+  /public/workbox-*.js
+  /public/workbox-*.js.map
+  '
+fi
 
 # * README.md template setup -----------------------------------------------------------------------------------------------------
-echo "Creating README.md template"
-rm README.md && echo >> README.md '<div align="center">
+if [ true ] ; then
+  echo "Creating README.md template"
+  rm README.md && echo >> README.md '<div align="center">
 
-<!-- <img src="" alt="" width="50" /> -->
+  <!-- <img src="" alt="" width="50" /> -->
 
-<br />
+  <br />
 
-# '$repoName'
+  # '$repoName'
 
-[![My Github](https://img.shields.io/badge/Gabe%20Frasz-'$repoName'-gold?style=flat-square)](https://github.com/SlyCooper-n)
-[![Repo version](https://img.shields.io/github/package-json/v/slycooper-n/'$repoName'?style=flat-square)](https://github.com/SlyCooper-n/'$repoName'/blob/main/package.json)
-[![Github issues](https://img.shields.io/github/issues/SlyCooper-n/'$repoName'?color=red&style=flat-square)](https://github.com/SlyCooper-n/'$repoName'/issues)
-[![GitHub license](https://img.shields.io/github/license/SlyCooper-n/'$repoName'?style=flat-square)](https://github.com/SlyCooper-n/'$repoName'/blob/main/LICENSE)
-[![Github commit](https://img.shields.io/github/last-commit/SlyCooper-n/'$repoName'?color=blue&style=flat-square)](https://github.com/SlyCooper-n/'$repoName'/commits/main)
-[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg?style=flat-square)](http://commitizen.github.io/cz-cli/)
+  [![My Github](https://img.shields.io/badge/Gabe%20Frasz-'$repoName'-gold?style=flat-square)](https://github.com/SlyCooper-n)
+  [![Repo version](https://img.shields.io/github/package-json/v/slycooper-n/'$repoName'?style=flat-square)](https://github.com/SlyCooper-n/'$repoName'/blob/main/package.json)
+  [![Github issues](https://img.shields.io/github/issues/SlyCooper-n/'$repoName'?color=red&style=flat-square)](https://github.com/SlyCooper-n/'$repoName'/issues)
+  [![GitHub license](https://img.shields.io/github/license/SlyCooper-n/'$repoName'?style=flat-square)](https://github.com/SlyCooper-n/'$repoName'/blob/main/LICENSE)
+  [![Github commit](https://img.shields.io/github/last-commit/SlyCooper-n/'$repoName'?color=blue&style=flat-square)](https://github.com/SlyCooper-n/'$repoName'/commits/main)
+  [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg?style=flat-square)](http://commitizen.github.io/cz-cli/)
 
-</div>
+  </div>
 
-<br />
+  <br />
 
-> This was generated by [bash scripts](https://github.com/SlyCooper-n/models) to start with a Next.js template. <br />
-> Live demo [here](if any).
+  > This was generated by [bash scripts](https://github.com/SlyCooper-n/models) to start with a Next.js template. <br />
+  > Live demo [here](if any).
 
-## Table of Contents
+  ## Table of Contents
 
-- [General Info](#pushpin-general-information)
-- [Technologies Used](#hammer-technologies-i-used)
-- [Features](#sparkles-features)
-  - [What is next?](#eye-curious-to-see-whats-coming-next)
-- [Screenshots](#camera-screenshots)
-- [Setup](#rocket-running-this-project)
-  - [Contributing](#brain-thinking-of-contributing-to-the-project)
-<!-- - [Usage](#question-usage) -->
-- [Project Status](#heavy_check_mark-project-status)
-- [Acknowledgement](#white_heart-acknowledgement)
-- [License & Contact](#memo-license--contact)
+  - [General Info](#pushpin-general-information)
+  - [Technologies Used](#hammer-technologies-i-used)
+  - [Features](#sparkles-features)
+    - [What is next?](#eye-curious-to-see-whats-coming-next)
+  - [Screenshots](#camera-screenshots)
+  - [Setup](#rocket-running-this-project)
+    - [Contributing](#brain-thinking-of-contributing-to-the-project)
+  <!-- - [Usage](#question-usage) -->
+  - [Project Status](#heavy_check_mark-project-status)
+  - [Acknowledgement](#white_heart-acknowledgement)
+  - [License & Contact](#memo-license--contact)
 
-## :pushpin: General Information
+  ## :pushpin: General Information
 
-Provide general information about your project here.
+  Provide general information about your project here.
 
-- What problem does it (intend to) solve?
-- What is the purpose of your project?
-- Why did you undertake it?
+  - What problem does it (intend to) solve?
+  - What is the purpose of your project?
+  - Why did you undertake it?
 
-> For more information about my dev journey, consider visiting my [LinkedIn](https://linkedin.com/in/gabriel-vs-frasao).
+  > For more information about my dev journey, consider visiting my [LinkedIn](https://linkedin.com/in/gabriel-vs-frasao).
 
-## :hammer: Technologies I Used
+  ## :hammer: Technologies I Used
 
-<details>
-<summary>
-Base tools
-</summary>
+  <details>
+  <summary>
+  Base tools
+  </summary>
 
-- [Next.js](https://nextjs.org/) v
-- [TypeScript](https://www.typescriptlang.org/) v
+  - [Next.js](https://nextjs.org/) v
+  - [TypeScript](https://www.typescriptlang.org/) v
 
-</details>
+  </details>
 
-<details>
-<summary>
-Styling
-</summary>
+  <details>
+  <summary>
+  Styling
+  </summary>
 
-- [Tailwind](https://tailwindcss.com/) v
-- [DaisyUI](https://daisyui.com/) v
-- [RadixUI](https://www.radix-ui.com/) (version per component)
+  - [Tailwind](https://tailwindcss.com/) v
+  - [DaisyUI](https://daisyui.com/) v
+  - [RadixUI](https://www.radix-ui.com/) (version per component)
 
-</details>
+  </details>
 
-<details>
-<summary>
-Linters and Formatters
-</summary>
+  <details>
+  <summary>
+  Linters and Formatters
+  </summary>
 
-- [ESLint](https://eslint.org/) v
-- [Prettier](https://prettier.io/) (VS Code extension)
-- [.editorConfig](https://editorconfig.org/) (VS Code extension)
+  - [ESLint](https://eslint.org/) v
+  - [Prettier](https://prettier.io/) (VS Code extension)
+  - [.editorConfig](https://editorconfig.org/) (VS Code extension)
 
-</details>
+  </details>
 
-<details>
-<summary>
-Testing
-</summary>
+  <details>
+  <summary>
+  Testing
+  </summary>
 
-- [Vitest](https://vitest.dev/) v
-- [React testing library](https://testing-library.com/docs/react-testing-library/intro/)
-  - jest-dom v
-  - react v
-  - user-event v
-- [Cypress](https://www.cypress.io/) v
+  - [Vitest](https://vitest.dev/) v
+  - [React testing library](https://testing-library.com/docs/react-testing-library/intro/)
+    - jest-dom v
+    - react v
+    - user-event v
+  - [Cypress](https://www.cypress.io/) v
 
-</details>
+  </details>
 
-## :sparkles: Features
+  ## :sparkles: Features
 
-- [x] 
+  - [x] 
 
-### :eye: Curious to see what is coming next?
+  ### :eye: Curious to see what is coming next?
 
-[Stay tuned right here](https://github.com/users/SlyCooper-n/projects/04)
+  [Stay tuned right here](https://github.com/users/SlyCooper-n/projects/04)
 
-## :camera: Screenshots
+  ## :camera: Screenshots
 
-<!-- <img alt="" src="" /> -->
+  <!-- <img alt="" src="" /> -->
 
-## :rocket: Running this project
+  ## :rocket: Running this project
 
-**Clone on your machine** (I personally use Github CLI)
+  **Clone on your machine** (I personally use Github CLI)
 
-```bash
-# by git
-git clone https://github.com/SlyCooper-n/'$repoName'.git
+  ```bash
+  # by git
+  git clone https://github.com/SlyCooper-n/'$repoName'.git
 
-# or by Github CLI
-gh repo clone SlyCooper-n/'$repoName'
-```
+  # or by Github CLI
+  gh repo clone SlyCooper-n/'$repoName'
+  ```
 
-**Set every thing up**
+  **Set every thing up**
 
-```bash
-# enter the project folder
-cd '$repoName'
+  ```bash
+  # enter the project folder
+  cd '$repoName'
 
-# install dependencies
-npm install
+  # install dependencies
+  npm install
 
-# run on development mode
-npm run dev
-```
+  # run on development mode
+  npm run dev
+  ```
 
-### :brain: Thinking of contributing to the project?
+  ### :brain: Thinking of contributing to the project?
 
-Clone the repo as shown above :arrow_up: and follow [this little guide](https://github.com/SlyCooper-n/'$repoName'/blob/main/_docs/CONTRIBUTING.md)
+  Clone the repo as shown above :arrow_up: and follow [this little guide](https://github.com/SlyCooper-n/'$repoName'/blob/main/_docs/CONTRIBUTING.md)
 
-<!--
-## :question: Usage
+  <!--
+  ## :question: Usage
 
-How does one go about using it? Provide various use cases and code examples here.
+  How does one go about using it? Provide various use cases and code examples here.
 
-`write-your-code-here`
--->
+  `write-your-code-here`
+  -->
 
-## :heavy_check_mark: Project Status
+  ## :heavy_check_mark: Project Status
 
-Project is: in progress / complete / no longer being worked on. If you are no longer working on it, provide reasons why.
+  Project is: in progress / complete / no longer being worked on. If you are no longer working on it, provide reasons why.
 
-| Status | Project |
-| ------ | ------- |
-| ![Github deployments](https://img.shields.io/github/deployments/slycooper-n/'$repoName'/production?label=vercel&logo=vercel&logoColor=white) | ['$repoName'](https://'$repoName'.vercel.app) |
+  | Status | Project |
+  | ------ | ------- |
+  | ![Github deployments](https://img.shields.io/github/deployments/slycooper-n/'$repoName'/production?label=vercel&logo=vercel&logoColor=white) | ['$repoName'](https://'$repoName'.vercel.app) |
 
-## :white_heart: Acknowledgement
+  ## :white_heart: Acknowledgement
 
-- ***'$repoName'*** was based and inspired on [this one](if any).
-- Many thanks to [they](if any).
+  - ***'$repoName'*** was based and inspired on [this one](if any).
+  - Many thanks to [they](if any).
 
-## :memo: License & Contact
+  ## :memo: License & Contact
 
-[MIT License](https://github.com/SlyCooper-n/'$repoName'/blob/main/LICENSE) &copy; [Gabriel VS Frasão](https://github.com/SlyCooper-n)
+  [MIT License](https://github.com/SlyCooper-n/'$repoName'/blob/main/LICENSE) &copy; [Gabriel VS Frasão](https://github.com/SlyCooper-n)
 
-Feel free to get in touch with me on my [Gmail](mailto:gabrielvitor.frasao@gmail.com), [Instagram](https://instagram/gabe_frasz) or [LinkedIn](https://linkedin.com/in/gabriel-vs-frasao)
-'
+  Feel free to get in touch with me on my [Gmail](mailto:gabrielvitor.frasao@gmail.com), [Instagram](https://instagram/gabe_frasz) or [LinkedIn](https://linkedin.com/in/gabriel-vs-frasao)
+  '
+fi
 
 # * add commitizen to the project for semantic versioning -------------------------------------------------------------------------
 if [ $semVer ]; then npm i -g commitizen && commitizen init cz-conventional-changelog --save-dev --save-exact; fi
