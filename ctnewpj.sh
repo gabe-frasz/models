@@ -1039,7 +1039,7 @@ fi
 if [ $semVer ]; then npm i -g commitizen && commitizen init cz-conventional-changelog --save-dev --save-exact; fi
 
 # * git initial commit ------------------------------------------------------------------------------------------------------------
-git add .
+# git add .
 # git commit -m "feat: inital commit from bash scripts"
 
 # if [[ $createRepo ]]; then git remote add origin "https://github.com/SlyCooper-n/'$repoName'.git" && git push -u origin main; fi
