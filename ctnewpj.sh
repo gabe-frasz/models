@@ -117,18 +117,6 @@ prompt_for_multiselect result "Typescript;Personal sugestion;Testing (based on V
 # TODO MAKE FUNCTION TO ASK QUESTIONS
 # * y/n questions
 if [ ${result[1]} ] ; then
-  # create gh repo?
-  while true; do
-    read -n1 -p "Would you like to create a GitHub repository? (Y/n) " yn
-    if [[ $yn == "" ]]; then createRepo=true && break; fi
-
-    case $yn in
-        [Yy]|[Yy][Ee][Ss] ) createRepo=true; break;;
-        [Nn]|[Nn][Oo] ) createRepo=false; break;;
-        * ) echo "Please answer yes or no";;
-    esac
-  done
-
   # semantic versioning?
   while true; do
     echo ""
@@ -800,73 +788,69 @@ fi
 
 
 # * .editorConfig setup ----------------------------------------------------------------------------------------------------------
-if [ true ] ; then
-  echo "Configuring .editorconfig..."
-  echo >> .editorConfig "# EditorConfig is awesome: https://EditorConfig.org
+echo "Configuring .editorconfig..."
+echo >> .editorConfig "# EditorConfig is awesome: https://EditorConfig.org
 
-  # top-most EditorConfig file
-  root = true
+# top-most EditorConfig file
+root = true
 
-  [*]
-  indent_style = space
-  indent_size = 2
-  tab_width = 2
-  end_of_line = lf
-  charset = utf-8
-  trim_trailing_whitespace = true
-  insert_final_newline = true
-  "
-fi
+[*]
+indent_style = space
+indent_size = 2
+tab_width = 2
+end_of_line = lf
+charset = utf-8
+trim_trailing_whitespace = true
+insert_final_newline = true
+"
 
 # * .gitignore setup -------------------------------------------------------------------------------------------------------------
-if [ true ] ; then
-  rm .gitignore && echo >> .gitignore '# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+echo >> .gitignore '# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-  # dependencies
-  /node_modules
-  /.pnp
-  .pnp.js
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
 
-  # testing
-  /coverage
-  /cypress/screenshots
-  /cypress/videos
+# testing
+/coverage
+/cypress/screenshots
+/cypress/videos
 
-  # next.js
-  /.next/
-  /out/
+# next.js
+/.next/
+/out/
 
-  # production
-  /build
+# production
+/build
 
-  # misc
-  .DS_Store
-  *.pem
+# misc
+.DS_Store
+*.pem
 
-  # debug
-  npm-debug.log*
-  yarn-debug.log*
-  yarn-error.log*
-  .pnpm-debug.log*
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
 
-  # local env files
-  .env*.local
+# local env files
+.env*.local
 
-  # vercel
-  .vercel
+# vercel
+.vercel
 
-  # typescript
-  *.tsbuildinfo
+# typescript
+*.tsbuildinfo
 
-  # PWAs
-  /public/sw.js
-  /public/sw.js.map
-  /public/worker-*.js
-  /public/worker-*.js.map
-  /public/workbox-*.js
-  /public/workbox-*.js.map
-  '
-fi
+# PWAs
+/public/sw.js
+/public/sw.js.map
+/public/worker-*.js
+/public/worker-*.js.map
+/public/workbox-*.js
+/public/workbox-*.js.map
+'
 
 # * README.md template setup -----------------------------------------------------------------------------------------------------
 if [ true ] ; then
@@ -1039,10 +1023,8 @@ fi
 if [ $semVer ]; then npm i -g commitizen && commitizen init cz-conventional-changelog --save-dev --save-exact; fi
 
 # * git initial commit ------------------------------------------------------------------------------------------------------------
-# git add .
-# git commit -m "feat: inital commit from bash scripts"
-
-# if [[ $createRepo ]]; then git remote add origin "https://github.com/SlyCooper-n/'$repoName'.git" && git push -u origin main; fi
+git add .
+git commit -m "feat: inital commit from bash scripts"
 
 # * Info message -----------------------------------------------------------------------------------------------------------------
 echo "Template built successfully!"
