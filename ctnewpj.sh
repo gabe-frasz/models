@@ -196,11 +196,11 @@ if [ ${result[0]} ] ; then
   # * pages/ setup -----------------------------------------------------------------------------------------------------------------
   echo "Organizing pages directory..."
   rm pages/index.tsx && echo >> pages/index.tsx 'import type { NextPage } from "next";
-  import { PageContainer } from "@components/layouts"
+  import { Layout } from "@components/layouts"
 
   const Home: NextPage = () => {
     return (
-      <PageContainer center>
+      <Layout center>
         <main className="prose">
           <h1>Next.js app with bash scripts</h1>
 
@@ -208,7 +208,7 @@ if [ ${result[0]} ] ; then
             Hello there!
           </p>
         </main>
-      </PageContainer>
+      </Layout>
     );
   };
 
@@ -508,6 +508,7 @@ if [ ${result[0]} ] ; then
       headTitle?: string;
       description?: string;
       center?: boolean;
+      className?: string;
       children: ReactNode | ReactNode[];
     }
 
@@ -655,20 +656,20 @@ if [ ${result[0]} ] ; then
         });
       });
       '
-      echo >> components/layouts/Layout/PageContainer.spec.tsx 'import { cleanup, render, screen } from "@testing-library/react";
+      echo >> components/layouts/Layout/Layout.spec.tsx 'import { cleanup, render, screen } from "@testing-library/react";
       import { afterEach, describe, expect, it } from "vitest";
-      import { PageContainer } from "./PageContainer";
+      import { Layout } from "./Layout";
 
-      describe("PageContainer layout component", () => {
+      describe("Layout layout component", () => {
         afterEach(() => {
           cleanup();
         });
 
         it("should render children correctly", () => {
           render(
-            <PageContainer headTitle="test" description="testing PageContainer props">
+            <Layout headTitle="test" description="testing Layout props">
               <span>Hello World</span>
-            </PageContainer>
+            </Layout>
           );
 
           const dummyText = screen.getByText(/hello world/i);
