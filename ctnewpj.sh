@@ -114,7 +114,6 @@ prompt_for_multiselect result "Typescript;Personal sugestion;Testing (based on V
 # ! [3] => Animations;
 # ! [4] => PWA support;
 
-# TODO MAKE FUNCTION TO ASK QUESTIONS
 # * y/n questions
 if [ ${result[1]} ] ; then
   # semantic versioning?
@@ -310,8 +309,6 @@ if [ ${result[0]} ] ; then
   echo "Organizing public directory..."
   rm public/vercel.svg
   mkdir public/icons public/images
-  echo >> public/icons/index.ts 'export * from "./"'
-  echo >> public/images/index.ts 'export * from "./"'
   echo >> public/robots.txt '# Allow all crawlers for indexing
 
   User-agent: *
@@ -322,8 +319,7 @@ if [ ${result[0]} ] ; then
 
   # * components/ setup ------------------------------------------------------------------------------------------------------------
   echo "Creating components directory..."
-  mkdir components components/guards components/layouts components/layouts/Layout components/modules components/widgets
-  echo >> components/guards/index.ts 'export * from "./"'
+  mkdir components components/layouts components/layouts/Layout components/modules components/widgets
   echo >> components/layouts/index.ts 'export * from "./Layout"'
   echo >> components/modules/index.ts 'export * from "./"'
   echo >> components/widgets/index.ts 'export * from "./"'
@@ -696,6 +692,7 @@ else
   cd $repoName
 fi
 
+# TODO: review autoAnimate lib possibility
 # * animations setup if chosen ---------------------------------------------------------------------------------------------------
 if [ ${result[3]} ] ; then
   echo "Using npm"
