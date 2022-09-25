@@ -193,13 +193,11 @@ if [ ${result[0]} ] ; then
 
   # TODO: add a good description, add info about me with SWR request
   # * pages/ setup -----------------------------------------------------------------------------------------------------------------
-  echo "Organizing pages directory..."
-  rm pages/index.tsx && echo >> pages/index.tsx 'import type { NextPage } from "next";
-  import { Layout } from "@components/layouts"
+  echo > pages/index.tsx 'import type { NextPage } from "next";
 
   const Home: NextPage = () => {
     return (
-      <Layout center>
+      <div className="min-h-screen flex justify-center item-center">
         <main className="prose">
           <h1>Next.js app with bash scripts</h1>
 
@@ -207,7 +205,7 @@ if [ ${result[0]} ] ; then
             Hello there!
           </p>
         </main>
-      </Layout>
+      </div>
     );
   };
 
@@ -222,7 +220,6 @@ if [ ${result[0]} ] ; then
       <Html lang="en">
         <Head>
           <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-          <meta name="description" content="Best Next.js template with bash scripts in the world" />
 
           <link href="/favicon.ico" rel="shortcut icon" type="image/ico" sizes="16x16" />
 
@@ -234,7 +231,11 @@ if [ ${result[0]} ] ; then
             src="https://polyfill.io/v3/polyfill.min.js"
           />
 
-          {/* 
+          {/*
+            // if using nextjs locale feature, add this
+            // docs: https://developers.google.com/search/docs/advanced/crawling/localized-versions?visit_id=637997374871324908-57850501&rd=1#html
+            <link rel="alternate" hreflang="lang_code" href="url_of_page" />
+
             <meta name="application-name" content="Next.js template with bash scripts" />
             <meta name="apple-mobile-web-app-capable" content="yes" />
             <meta name="apple-mobile-web-app-status-bar-style" content="default" />
@@ -247,12 +248,11 @@ if [ ${result[0]} ] ; then
             <meta name="msapplication-TileColor" content="#6419e6" />
             <meta name="msapplication-tap-highlight" content="no" />
 
-            // icons 
+            // icons and manifest
             <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png" />
             <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png" />
-            <link rel="manifest" href="/manifest.json" />
             <link rel="mask-icon" href="/icons/safari-pinned-tab.svg" color="#5bbad5" />
-            <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+            <link rel="manifest" href="/manifest.json" />
 
             // apple-touch icons
             <link rel="apple-touch-icon" href="/icons/touch-icon-iphone.png" />
@@ -295,7 +295,7 @@ if [ ${result[0]} ] ; then
   }
   '
 
-  rm pages/_app.tsx && echo >> pages/_app.tsx 'import type { AppProps } from "next/app"
+  echo > pages/_app.tsx 'import type { AppProps } from "next/app"
   import "../public/styles/globals.css"
 
   function MyApp({ Component, pageProps }: AppProps) {
@@ -306,8 +306,7 @@ if [ ${result[0]} ] ; then
   '
 
   # * public/ setup ----------------------------------------------------------------------------------------------------------------
-  echo "Organizing public directory..."
-  rm public/vercel.svg
+  rm public/vercel.svg 
   mkdir public/icons public/images
   echo >> public/robots.txt '# Allow all crawlers for indexing
 
@@ -318,51 +317,12 @@ if [ ${result[0]} ] ; then
   '
 
   # * components/ setup ------------------------------------------------------------------------------------------------------------
-  echo "Creating components directory..."
-  mkdir components components/layouts components/layouts/Layout components/modules components/widgets
-  echo >> components/layouts/index.ts 'export * from "./Layout"'
+  mkdir components components/layouts components/modules components/widgets
+  echo >> components/layouts/index.ts 'export * from "./"'
   echo >> components/modules/index.ts 'export * from "./"'
   echo >> components/widgets/index.ts 'export * from "./"'
 
-  if [ ${result[1]} ] ; then
-    echo >> components/layouts/Layout/Layout.tsx 'import { useTheme } from "@core/hooks";
-      import { LayoutProps } from "@core/types";
-      import Head from "next/head";
-
-      export const Layout = ({
-        headTitle,
-        description,
-        center,
-        className = "",
-        children,
-      }: LayoutProps) => {
-        const { appTheme } = useTheme();
-
-        return (
-          <>
-            <Head>
-              <title>{headTitle ?? "Next page with bash scripts"}</title>
-              <meta name="description" content={description} />
-            </Head>
-
-            <div
-              data-theme={appTheme}
-              className={`min-h-screen flex flex-col ${
-                center ? "justify-center items-center" : ""
-              } ${className}`}
-            >
-              {children}
-            </div>
-          </>
-        );
-      };
-    '
-  fi
-  echo >> components/layouts/Layout/index.ts 'export * from "./Layout"'
-
-
   # * core/ setup ------------------------------------------------------------------------------------------------------------------
-  echo "Creating core directory..."
   mkdir core core/adapters core/contexts core/hooks core/repositories core/services core/tests core/types core/use-cases core/utils
   echo >> core/adapters/index.ts 'export * from "./"'
   echo >> core/contexts/index.ts 'export * from "./"'
@@ -373,16 +333,7 @@ if [ ${result[0]} ] ; then
   echo >> core/types/index.ts 'export * from "./types"
   export * from "./props"'
   echo >> core/types/types.ts ''
-  echo >> core/types/props.ts 'import { ReactNode } from "react";
-
-  // * layout components
-  export interface LayoutProps {
-    headTitle?: string;
-    description?: string;
-    center?: boolean;
-    className?: string;
-    children: ReactNode | ReactNode[];
-  }
+  echo >> core/types/props.ts '// * layout components
 
   // * module components
 
@@ -393,7 +344,6 @@ if [ ${result[0]} ] ; then
 
 
   # * tsconfig.json setup ----------------------------------------------------------------------------------------------------------
-  echo "Configuring tsconfig.json..."
     rm tsconfig.json && echo >> tsconfig.json '{
       "compilerOptions": {
         "target": "ES6",
@@ -420,7 +370,7 @@ if [ ${result[0]} ] ; then
       },
       "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
       "exclude": ["node_modules"]
-  }
+    }
   '
 
   # * Install sugested dependencies if chosen --------------------------------------------------------------------------------------
@@ -429,18 +379,17 @@ if [ ${result[0]} ] ; then
     - tailwindcss
     - postcss
     - autoprefixer
-    - daisyui (Tailwind CSS component library) => 🤍
-    - @tailwindcss/typography (Tailwind CSS typography plugin)
-    - @tailwindcss/forms
-    - tailwind-scrollbar
-    - react-hot-toast (custom styled alerts)
+    - daisyui (Tailwind CSS component library)
+    - @tailwindcss/typography (Tailwind CSS plugin)
+    - @tailwindcss/forms (Tailwind CSS plugin)
+    - tailwind-scrollbar (Tailwind CSS plugin)
+    - react-hot-toast (custom styled toasts)
     - phosphor-react (easy-to-use svg icons)
     '
-
     npm install daisyui react-hot-toast phosphor-react
-    npm install -D tailwindcss postcss autoprefixer @tailwindcss/typography @tailwindcss/forms tailwind-scrollbar && npx tailwindcss init -p
+    npm install -D tailwindcss postcss autoprefixer @tailwindcss/typography @tailwindcss/forms tailwind-scrollbar
+    npx tailwindcss init -p
 
-    echo "Configuring Tailwind CSS..."
     rm tailwind.config.js && echo >> tailwind.config.js '/** @type {import('tailwindcss').Config} */
 
     module.exports = {
@@ -457,8 +406,8 @@ if [ ${result[0]} ] ; then
         },
       },
       plugins: [
-        // require("@tailwindcss/forms"),
-        // require("tailwind-scrollbar"),
+        // require("@tailwindcss/forms")({ strategy: "base" }),
+        // require("tailwind-scrollbar")({ nocompatible: true }),
         require("@tailwindcss/typography"),
         require("daisyui"),
       ],
@@ -472,7 +421,7 @@ if [ ${result[0]} ] ; then
     @tailwind utilities;
 
     body, #__next {
-      overflow-x: hidden;
+      @apply min-h-screen flex flex-col overflow-x-hidden;
     }
     "
 
@@ -483,30 +432,22 @@ if [ ${result[0]} ] ; then
 
     if [ $cookies ]; then npm install nookies; fi
 
-    rm core/types/types.ts && echo >> core/types/types.ts '// * contexts values
+    echo > core/types/types.ts '// * contexts values
     export type ThemeContextValue = {
       appTheme: "light" | "dark";
       toggleTheme: () => void;
       setAppThemeToLight: () => void;
       setAppThemeToDark: () => void;
     };
-
     '
-    rm core/types/props.ts && echo >> core/types/props.ts 'import { ReactNode } from "react";
+    echo > core/types/props.ts 'import { ReactNode } from "react";
 
     // * contexts
     export interface ThemeProviderProps {
-      children: ReactNode | ReactNode[];
+      children: ReactNode;
     }
 
     // * layout components
-    export interface LayoutProps {
-      headTitle?: string;
-      description?: string;
-      center?: boolean;
-      className?: string;
-      children: ReactNode | ReactNode[];
-    }
 
     // * module components
 
@@ -541,27 +482,44 @@ if [ ${result[0]} ] ; then
       };
 
       return (
-        <ThemeContext.Provider value={themeValue}>{children}</ThemeContext.Provider>
+        <ThemeContext.Provider value={themeValue}>
+          <div data-theme={appTheme}>{children}</div>
+        </ThemeContext.Provider>
       );
     };
     '
     echo >> core/contexts/ThemeContext/index.ts 'export * from "./ThemeContext"'
-    rm core/contexts/index.ts && echo >> core/contexts/index.ts 'export * from "./ThemeContext"'
+    echo > core/contexts/index.ts 'export * from "./ThemeContext"'
 
     echo >> core/hooks/useTheme.ts 'import { ThemeContext } from "@core/contexts";
     import { useContext } from "react";
 
     export const useTheme = () => useContext(ThemeContext);
     '
-    rm core/hooks/index.ts && echo >> core/hooks/index.ts 'export * from "./useTheme"'
+    echo > core/hooks/index.ts 'export * from "./useTheme"'
+
+    echo > pages/_app.tsx 'import type { AppProps } from "next/app"
+    import "../public/styles/globals.css"
+    import { ThemeProvider } from "@core/contexts"
+
+    function MyApp({ Component, pageProps }: AppProps) {
+      return (
+        <ThemeProvider>
+          <Component {...pageProps} />
+        </ThemeProvider>
+      )
+    }
+
+    export default MyApp
+    '
   fi
 
-  # * tests setup if chosen ------------------------------------------------------------------------------------------------------
+  # * tests setup if chosen --------------------------------------------------------------------------------------------------------
   if [ ${result[2]} ] ; then
     echo "Using npm"
 
     if [ $unitTesting ]; then
-      echo 'Intalling tests devDependencies for Vitest:
+      echo 'Intalling devDependencies for unit testing:
       - vitest
       - jsdom
       - @vitejs/plugin-react
@@ -636,7 +594,8 @@ if [ ${result[0]} ] ; then
         '
       fi
 
-      mkdir core/tests/pages && echo >> core/tests/pages/index.spec.tsx 'import { render, screen } from "@testing-library/react";
+      mkdir core/tests/pages
+      echo >> core/tests/pages/index.spec.tsx 'import { render, screen } from "@testing-library/react";
       import Home from "pages";
       import { describe, expect, it } from "vitest";
 
@@ -649,28 +608,6 @@ if [ ${result[0]} ] ; then
 
           expect(title).toBeInTheDocument();
           expect(paragraph).toBeInTheDocument();
-        });
-      });
-      '
-      echo >> components/layouts/Layout/Layout.spec.tsx 'import { cleanup, render, screen } from "@testing-library/react";
-      import { afterEach, describe, expect, it } from "vitest";
-      import { Layout } from "./Layout";
-
-      describe("Layout layout component", () => {
-        afterEach(() => {
-          cleanup();
-        });
-
-        it("should render children correctly", () => {
-          render(
-            <Layout headTitle="test" description="testing Layout props">
-              <span>Hello World</span>
-            </Layout>
-          );
-
-          const dummyText = screen.getByText(/hello world/i);
-
-          expect(dummyText).toBeInTheDocument();
         });
       });
       '
@@ -693,9 +630,8 @@ else
 fi
 
 # TODO: review autoAnimate lib possibility
-# * animations setup if chosen ---------------------------------------------------------------------------------------------------
+# * animations setup if chosen -----------------------------------------------------------------------------------------------------
 if [ ${result[3]} ] ; then
-  echo "Using npm"
   echo 'Intalling dependencies:
   - framer-motion
   - lottie-react
@@ -703,11 +639,10 @@ if [ ${result[3]} ] ; then
   npm install framer-motion lottie-react
 fi
 
-# * PWA support setup if chosen --------------------------------------------------------------------------------------------------
+# * PWA support setup if chosen ----------------------------------------------------------------------------------------------------
 if [ ${result[4]} ] ; then
   npm install next-pwa
   # next.config.js setup with PWA support
-  echo "Configuring next.config.js with PWA support..."
   rm next.config.js && echo >> next.config.js '/** @type {import("next").NextConfig} */
 
   // PWA configuration
@@ -727,7 +662,6 @@ if [ ${result[4]} ] ; then
   '
 
   # manifest.json setup
-  echo "Creating manifest.json..."
   echo >> public/manifest.json '{
     "name": "PWA model",
     "short_name": "PWA model",
@@ -785,8 +719,7 @@ if [ ${result[4]} ] ; then
 fi
 
 
-# * .editorConfig setup ----------------------------------------------------------------------------------------------------------
-echo "Configuring .editorconfig..."
+# * .editorConfig setup ------------------------------------------------------------------------------------------------------------
 echo >> .editorConfig "# EditorConfig is awesome: https://EditorConfig.org
 
 # top-most EditorConfig file
@@ -802,7 +735,7 @@ trim_trailing_whitespace = true
 insert_final_newline = true
 "
 
-# * .gitignore setup -------------------------------------------------------------------------------------------------------------
+# * .gitignore setup ---------------------------------------------------------------------------------------------------------------
 echo >> .gitignore '# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
@@ -850,9 +783,8 @@ yarn-error.log*
 /public/workbox-*.js.map
 '
 
-# * README.md template setup -----------------------------------------------------------------------------------------------------
+# * README.md template setup -------------------------------------------------------------------------------------------------------
 if [ true ] ; then
-  echo "Creating README.md template"
   rm README.md && echo >> README.md '<div align="center">
 
   <!-- <img src="" alt="" width="50" /> -->
@@ -1017,16 +949,21 @@ if [ true ] ; then
   '
 fi
 
-# * add commitizen to the project for semantic versioning -------------------------------------------------------------------------
+# * format files with prettier -----------------------------------------------------------------------------------------------------
+npm i prettier
+npx prettier -w "./**/*.{ts,tsx}"
+npm rm prettier
+
+# * add commitizen to the project for semantic versioning --------------------------------------------------------------------------
 if [ $semVer ]; then npm i -g commitizen && commitizen init cz-conventional-changelog --save-dev --save-exact; fi
 
-# * git initial commit ------------------------------------------------------------------------------------------------------------
+# * git initial commit -------------------------------------------------------------------------------------------------------------
 git add .
 git commit -m "feat: inital commit from bash scripts"
 
-# * Info message -----------------------------------------------------------------------------------------------------------------
+# * Info message -------------------------------------------------------------------------------------------------------------------
 echo "Template built successfully!"
 echo "For futher information, visit the README.md file"
 
-# * run --------------------------------------------------------------------------------------------------------------------------
+# * run ----------------------------------------------------------------------------------------------------------------------------
 npm run dev
