@@ -430,7 +430,7 @@ if [ ${result[0]} ] ; then
 
     if [ ${apiTools[1]} ]; then npm install graphql @apollo/client; fi
 
-    if [ $cookies ]; then npm install nookies; fi
+    if [ $cookies == true ]; then npm install nookies; fi
 
     echo > core/types/types.ts '// * contexts values
     export type ThemeContextValue = {
@@ -518,7 +518,7 @@ if [ ${result[0]} ] ; then
   if [ ${result[2]} ] ; then
     echo "Using npm"
 
-    if [ $unitTesting ]; then
+    if [ $unitTesting == true ]; then
       echo 'Intalling devDependencies for unit testing:
       - vitest
       - jsdom
@@ -613,7 +613,7 @@ if [ ${result[0]} ] ; then
       '
     fi
 
-    if [ $e2eTesting ]; then
+    if [ $e2eTesting == true ]; then
       echo 'Installing Cypress...'
 
       npm install -D cypress
@@ -952,17 +952,22 @@ fi
 # * format files with prettier -----------------------------------------------------------------------------------------------------
 npm i prettier
 npx prettier -w "./**/*.{ts,tsx}"
+npx prettier -w "./*.config.js"
+npx prettier -w "./.eslintrc.json"
+npx prettier -w "./README.md"
+npx prettier -w "./tsconfig.json"
 npm rm prettier
 
 # * add commitizen to the project for semantic versioning --------------------------------------------------------------------------
-if [ $semVer ]; then npm i -g commitizen && commitizen init cz-conventional-changelog --save-dev --save-exact; fi
+if [ $semVer == true ]; then npm i -g commitizen && commitizen init cz-conventional-changelog --save-dev --save-exact; fi
 
 # * git initial commit -------------------------------------------------------------------------------------------------------------
 git add .
 git commit -m "feat: inital commit from bash scripts"
 
 # * Info message -------------------------------------------------------------------------------------------------------------------
-echo "Template built successfully!"
+echo "
+Template built successfully!"
 echo "For futher information, visit the README.md file"
 
 # * run ----------------------------------------------------------------------------------------------------------------------------
