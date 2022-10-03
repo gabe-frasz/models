@@ -330,21 +330,15 @@ if [ ${result[0]} ] ; then
   echo >> core/repositories/index.ts 'export * from "./"'
   echo >> core/services/index.ts 'export * from "./"'
   echo >> core/tests/index.ts 'export * from "./"'
-  echo >> core/types/index.ts 'export * from "./types"
-  export * from "./props"'
+  echo -e >> core/types/index.ts 'export * from "./types" \nexport * from "./props"'
   echo >> core/types/types.ts ''
-  echo >> core/types/props.ts '// * layout components
-
-  // * module components
-
-  // * widget components
-  '
+  echo >> core/types/props.ts '// * layout components \n\n// * module components \n\n// * widget components'
   echo >> core/use-cases/index.ts 'export * from "./"'
   echo >> core/utils/index.ts 'export * from "./"'
 
 
   # * tsconfig.json setup ----------------------------------------------------------------------------------------------------------
-    rm tsconfig.json && echo >> tsconfig.json '{
+    echo > tsconfig.json '{
       "compilerOptions": {
         "target": "ES6",
         "lib": ["dom", "dom.iterable", "esnext"],
@@ -390,7 +384,7 @@ if [ ${result[0]} ] ; then
     npm install -D tailwindcss postcss autoprefixer @tailwindcss/typography @tailwindcss/forms tailwind-scrollbar
     npx tailwindcss init -p
 
-    rm tailwind.config.js && echo >> tailwind.config.js '/** @type {import('tailwindcss').Config} */
+    echo > tailwind.config.js '/** @type {import('tailwindcss').Config} */
 
     module.exports = {
       content: [
@@ -454,7 +448,7 @@ if [ ${result[0]} ] ; then
     // * widget components
     '
 
-    mkdir core/contexts/ThemeContext && echo >> core/contexts/ThemeContext/ThemeContext.tsx 'import { ThemeContextValue, ThemeProviderProps } from "@core/types";
+    mkdir core/contexts/ThemeContext && echo > core/contexts/ThemeContext/ThemeContext.tsx 'import { ThemeContextValue, ThemeProviderProps } from "@core/types";
     import { createContext, useState } from "react";
 
     export const ThemeContext = createContext({} as ThemeContextValue);
@@ -488,10 +482,10 @@ if [ ${result[0]} ] ; then
       );
     };
     '
-    echo >> core/contexts/ThemeContext/index.ts 'export * from "./ThemeContext"'
+    echo > core/contexts/ThemeContext/index.ts 'export * from "./ThemeContext"'
     echo > core/contexts/index.ts 'export * from "./ThemeContext"'
 
-    echo >> core/hooks/useTheme.ts 'import { ThemeContext } from "@core/contexts";
+    echo > core/hooks/useTheme.ts 'import { ThemeContext } from "@core/contexts";
     import { useContext } from "react";
 
     export const useTheme = () => useContext(ThemeContext);
@@ -534,12 +528,12 @@ if [ ${result[0]} ] ; then
       '
       npm install -D vitest @vitejs/plugin-react vite-tsconfig-paths jsdom @testing-library/jest-dom @types/testing-library__jest-dom eslint-plugin-jest-dom @testing-library/react eslint-plugin-testing-library @testing-library/user-event c8 @vitest/coverage-c8
 
-      echo >> core/tests/setup.ts 'import matchers from "@testing-library/jest-dom/matchers";
+      echo > core/tests/setup.ts 'import matchers from "@testing-library/jest-dom/matchers";
       import { expect } from "vitest";
 
       expect.extend(matchers);
       '
-      echo >> vitest.config.ts 'import react from "@vitejs/plugin-react";
+      echo > vitest.config.ts 'import react from "@vitejs/plugin-react";
       import tsconfigPaths from "vite-tsconfig-paths";
       import { defineConfig } from "vitest/config";
 
@@ -554,7 +548,7 @@ if [ ${result[0]} ] ; then
         },
       });
       '
-      rm .eslintrc.json && echo >> .eslintrc.json '{
+      echo > .eslintrc.json '{
         "extends": [
           "next/core-web-vitals",
           "plugin:testing-library/react",
@@ -644,7 +638,7 @@ fi
 if [ ${result[4]} ] ; then
   npm install next-pwa
   # next.config.js setup with PWA support
-  rm next.config.js && echo >> next.config.js '/** @type {import("next").NextConfig} */
+  echo > next.config.js '/** @type {import("next").NextConfig} */
 
   // PWA configuration
   const runtimeCaching = require("next-pwa/cache");
@@ -737,43 +731,10 @@ insert_final_newline = true
 "
 
 # * .gitignore setup ---------------------------------------------------------------------------------------------------------------
-echo >> .gitignore '# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
-# dependencies
-/node_modules
-/.pnp
-.pnp.js
-
-# testing
-/coverage
+echo >> .gitignore '
+# cypress media
 /cypress/screenshots
 /cypress/videos
-
-# next.js
-/.next/
-/out/
-
-# production
-/build
-
-# misc
-.DS_Store
-*.pem
-
-# debug
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-.pnpm-debug.log*
-
-# local env files
-.env*.local
-
-# vercel
-.vercel
-
-# typescript
-*.tsbuildinfo
 
 # PWAs
 /public/sw.js
@@ -786,7 +747,7 @@ yarn-error.log*
 
 # * README.md template setup -------------------------------------------------------------------------------------------------------
 if [ true ] ; then
-  rm README.md && echo >> README.md '<div align="center">
+ echo > README.md '<div align="center">
 
   <!-- <img src="" alt="" width="50" /> -->
 
@@ -967,9 +928,7 @@ git add .
 git commit -m "feat: inital commit from bash scripts"
 
 # * Info message -------------------------------------------------------------------------------------------------------------------
-echo "
-Template built successfully!"
-echo "For futher information, visit the README.md file"
+echo -e "\e[1;32mTemplate built successfully! \n\e[0mFor futher information, visit the \e[1;36mREADME.md\e[0m file"
 
 # * run ----------------------------------------------------------------------------------------------------------------------------
 npm run dev
