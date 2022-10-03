@@ -566,13 +566,14 @@ if [ ${result[0]} ] ; then
         }
       }
       '
-      npm set-script "test" "vitest run --config ./vitest.config.ts"
-      npm set-script "test:watch" "vitest --config ./vitest.config.ts"
+      
+      npm pkg set scripts.test="vitest run --config ./vitest.config.ts"
+      npm pkg set scripts.test:watch="vitest --config ./vitest.config.ts"
 
       # install vitest ui and create test file for ThemeContext if personal sugestion was selected
       if [ ${result[1]} ] ; then
         npm install -D @vitest/ui
-        npm set-script "test:ui" "vitest --ui --config ./vitest.config.ts"
+        npm pkg set scripts.test:ui="vitest --ui --config ./vitest.config.ts"
 
         echo >> core/contexts/ThemeContext/ThemeContext.spec.tsx 'import { render, screen } from "@testing-library/react";
         import { describe, expect, it } from "vitest";
@@ -618,9 +619,9 @@ if [ ${result[0]} ] ; then
 
       npm install -D cypress
 
-      npm set-script "cy" "npx cypress open --browser chrome"
-      npm set-script "cy:open" "npx cypress open"
-      npm set-script "cy:headless" "npx cypress run --headless"
+      npm pkg set scripts.cy="npx cypress open --browser chrome"
+      npm pkg set scripts.cy:open="npx cypress open"
+      npm pkg set scripts.cy:headless="npx cypress run --headless"
     fi
   fi
 else
@@ -951,7 +952,7 @@ fi
 
 # * format files with prettier -----------------------------------------------------------------------------------------------------
 npm i prettier
-npx prettier -w "./**/*.{ts,tsx}"
+npx prettier -w "./**/*.{ts,tsx,css}"
 npx prettier -w "./*.config.js"
 npx prettier -w "./.eslintrc.json"
 npx prettier -w "./README.md"
