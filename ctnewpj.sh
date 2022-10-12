@@ -146,7 +146,7 @@ if [ ${result[1]} ] ; then
   while true; do
     echo ""
     read -n1 -p "Will you consume APIs? (Y/n) " yn
-    if [[ $yn == "" ]]; then prompt_for_multiselect apiTools "REST;GraphQL;" ";true;" && break; fi
+    if [[ $yn == "" ]]; then prompt_for_multiselect apiTools "REST (axios, swr);GraphQL (apollo client);" ";true;" && break; fi
 
     case $yn in
         [Yy]|[Yy][Ee][Ss] ) prompt_for_multiselect apiTools "REST;GraphQL;" ";true;"; break;;
@@ -715,7 +715,7 @@ fi
 
 
 # * .editorConfig setup ------------------------------------------------------------------------------------------------------------
-echo >> .editorConfig "# EditorConfig is awesome: https://EditorConfig.org
+echo > .editorConfig "# EditorConfig is awesome: https://EditorConfig.org
 
 # top-most EditorConfig file
 root = true
@@ -736,7 +736,7 @@ echo >> .gitignore '
 /cypress/screenshots
 /cypress/videos
 
-# PWAs
+# PWA service workers
 /public/sw.js
 /public/sw.js.map
 /public/worker-*.js
@@ -910,6 +910,14 @@ if [ true ] ; then
   Feel free to get in touch with me on my [Gmail](mailto:gabrielvitor.frasao@gmail.com), [Instagram](https://instagram/gabe_frasz) or [LinkedIn](https://linkedin.com/in/gabriel-vs-frasao)
   '
 fi
+
+mkdir _docs && echo > _docs/CONTRIBUTING.md '# First things first, thank you for being here
+
+But...
+
+> This action is currently in process :construction: <br />
+> You can try to contact me or just make a pull request on the main branch for now
+'
 
 # * format files with prettier -----------------------------------------------------------------------------------------------------
 npm i prettier
