@@ -54,12 +54,15 @@ bash models/ctnewpj.sh <repoName>
   - [nookies](https://github.com/maticzav/nookies#readme) (cookie handling on server side)
   - [axios](https://axios-http.com/ptbr/) (handle api requests instead of default fetch API)
   - [swr](https://swr.vercel.app/) (requests with stale-while-revalidate and more)
-- [x] Testing[^marked] (based on Vitest)
-  - ...
-- [ ] Animation
-  - ...
-- [ ] PWA support
-  - ...
+- [x] Testing[^marked]
+  - [vitest](https://vitest.dev)
+  - [@testing-library/react](https://testing-library.com/docs/react-testing-library/intro/)
+  - [cypress](https://cypress.io)
+- [x] Animation
+  - [framer-motion](https://www.framer.com/motion/)
+  - [lottie-react](https://lottiereact.com/)
+- [x] PWA support
+  - [next-pwa](https://github.com/shadowwalker/next-pwa#readme)
 
 ## :memo: License
 
