@@ -68,4 +68,4 @@ bash models/ctnewpj.sh <repoName>
 
 [MIT License](https://github.com/SlyCooper-n/models/blob/main/LICENSE) &copy; [Gabriel VS Frasão](https://github.com/SlyCooper-n/)
 
-[^marked]: Selected as true by default
+[^marked]: Selected by default
