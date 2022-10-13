@@ -58,10 +58,10 @@ bash models/ctnewpj.sh <repoName>
   - [vitest](https://vitest.dev)
   - [@testing-library/react](https://testing-library.com/docs/react-testing-library/intro/)
   - [cypress](https://cypress.io)
-- [x] Animation
+- [ ] Animation
   - [framer-motion](https://www.framer.com/motion/)
   - [lottie-react](https://lottiereact.com/)
-- [x] PWA support
+- [ ] PWA support
   - [next-pwa](https://github.com/shadowwalker/next-pwa#readme)
 
 ## :memo: License
