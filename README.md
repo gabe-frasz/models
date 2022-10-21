@@ -33,7 +33,7 @@ After you have this on your machine, do the following:
 
 ```bash
 # this will run the sript to create a new project
-bash models/ctnewpj.sh
+bash models/create-new-frontend.sh
 ```
 
 ## :inbox_tray: Arguments
