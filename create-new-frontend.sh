@@ -737,12 +737,22 @@ echo >> .gitignore '
 /cypress/videos
 
 # PWA service workers
-/public/sw.js
-/public/sw.js.map
-/public/worker-*.js
-/public/worker-*.js.map
-/public/workbox-*.js
-/public/workbox-*.js.map
+/public/sw.js*
+/public/worker-*.js*
+/public/workbox-*.js*
+
+# storybook
+/storybook-static
+
+# editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
 '
 
 # * README.md template setup -------------------------------------------------------------------------------------------------------
